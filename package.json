@@ -1,5 +1,5 @@
 {
-  "name": "Poly glots point",
+  "name": "PolyglotPoint",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -16,14 +16,18 @@
     "@react-native-picker/picker": "^1.9.8",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
+    "class-transformer": "^0.3.1",
     "eslint": "^7.17.0",
     "jest": "^26.6.3",
     "react": "^17.0.1",
     "react-native": "^0.63.4",
     "react-native-dropdown-picker": "^3.7.8",
+    "react-native-elements": "^3.1.0",
+    "react-native-flash-message": "^0.1.21",
     "react-native-gesture-handler": "^1.9.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-picker-select": "^8.0.4",
+    "react-native-popup-menu": "^0.15.10",
     "react-native-progress": "^4.1.2",
     "react-native-raw-bottom-sheet": "^2.2.0",
     "react-native-reanimated": "^1.13.2",
@@ -31,8 +35,11 @@
     "react-native-screens": "^2.16.1",
     "react-native-select-input-ios": "^2.0.5",
     "react-native-smooth-pincode-input": "^1.0.9",
+    "react-native-tags": "^2.2.0",
     "react-native-vector-icons": "^7.1.0",
-    "react-test-renderer": "^17.0.1"
+    "react-native-walkthrough-tooltip": "^1.1.11",
+    "react-test-renderer": "^17.0.1",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@babel/core": "7.12.10",
