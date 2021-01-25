@@ -38,11 +38,9 @@ export default class SimpleSentenceLesson extends React.Component {
     static getDerivedStateFromProps(props, state) {
         if (state.builder != props.builder && props.builder != undefined) {
             return {
-                builder: props.builder
-            }
-        } else if (state.tags != props.builder.tags) {
-            return {
-                tags: props.builder.tags
+                builder: props.builder,
+                user_tags_translation: [],
+
             }
         }
         return null;

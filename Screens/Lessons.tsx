@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, View, Button, TouchableOpacity } from 'react-native';
 import MainStyle from '../Style/MainStyle';
 import * as Progress from 'react-native-progress';
-import { getLanuguageLessons } from '../apis';
+import { getLanuguageLessons, get, getBaseUrl } from '../apis';
 import SentenceLessonBuilder from '../Builders/SentenceLessonBuilder';
 import SimpleSentenceLesson from './Lessons/SimpleSentenceLesson'
 import ImagesLesson from './Lessons/ImagesLesson'
@@ -10,6 +10,8 @@ import WriteThisLesson from './Lessons/WriteThisLesson'
 import PairsToMatchLesson from './Lessons/PairsToMatchLesson'
 import TapWhatYouHeardLesson from './Lessons/TapWhatYouHeardLesson'
 import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
+import Icon from 'react-native-vector-icons/FontAwesome'
+
 
 
 class Lessons extends React.Component {
@@ -20,9 +22,10 @@ class Lessons extends React.Component {
 
     state = {
         translation: [],
-        picked_item_id: '',
         lessons: [],
         lessonView: null,
+        score: 0,
+        group_id: 0
     }
 
     nextLesson = (isLessonPassed, index) => {
@@ -30,9 +33,10 @@ class Lessons extends React.Component {
             showMessage({
                 message: "Congratulations, it was the right one.",
                 type: "success",
-                position: 'bottom'
+                position: 'bottom',
+                icon: 'success'
             });
-
+            this.setState({ score: this.state.score + 1 });
             if (index + 1 <= this.state.lessons.length) {
                 this.getLesson(index + 1);
             }
@@ -40,7 +44,8 @@ class Lessons extends React.Component {
             showMessage({
                 message: "Wrong",
                 type: "danger",
-                position: 'bottom'
+                position: 'bottom',
+                icon: 'danger'
             });
             console.log('failed index: ' + index);
             let lessons = this.state.lessons
@@ -98,14 +103,17 @@ class Lessons extends React.Component {
         }
     }
     async componentDidMount() {
-        let response = await getLanuguageLessons(this, 1);
-        this.setState({ lessons: response }, () => this.getLesson(0));
+        const { group_id } = await this.props.route.params
+        let lessons = await get(`lessons/group/${group_id}`)
+        this.setState({ lessons: lessons, group_id: group_id }, () => this.getLesson(0));
     }
 
     render() {
         return (
             <View style={MainStyle.LessonsContainer}>
-
+                <Icon name='heart' size={20} style={{ color: 'red', marginRight: 12, marginTop: 12, alignSelf: 'flex-end' }} >
+                    <Text style={{ color: 'white', marginLeft: 4 }}>  {this.state.score}</Text>
+                </Icon>
                 <>
                     {this.state.lessonView}
                 </>

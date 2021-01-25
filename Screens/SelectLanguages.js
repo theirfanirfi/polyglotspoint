@@ -6,7 +6,8 @@ import Flag from '../assets/Images/americaFlag.png';
 import * as Progress from 'react-native-progress';
 import { plainToClass } from 'class-transformer';
 import { Language } from '../models/Language';
-import SentenceLessonBuilder from '../Builders/SentenceLessonBuilder'
+import { get, getBaseUrl } from '../apis/'
+
 
 
 const DATA = [
@@ -59,52 +60,35 @@ const DATA = [
 let navigateToAccount = '';
 
 class SelectLanguages extends React.Component {
-
+  state = {
+    languages: []
+  }
   async componentDidMount() {
-    // let response = await fetch("http://192.168.10.7:3000/api/lessons/")
-    // // .then((response) => response.json())
-    // // .then((json) => {
-    // //   console.log(json)
-
-    // // });
-    // let res = await response.json();
-    // // let lesson = {
-    // //   'sentence': 'some thing is-not working',
-    // //   'dropdown': {
-    // //     'some': 'x;y;z',
-    // //     'is-not': 'a;b;c',
-    // //   },
-    // //   'translation': 'some translation'
-    // // };
-
-
-
-
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then((response) => response.json())
-      .then((json) => {
-        const realUsers = plainToClass(Language, json);
-        realUsers.getLanguage();
-      });
+    const languages = await get('languages')
+    this.setState({ languages: languages })
   }
 
   render() {
     return (
       <View style={styles.SelctLanguagescontainer}>
         <FlatList
-          data={DATA}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.CountriesCards}
-              onPress={() => this.props.navigation.navigate('Levels')}>
-              <Image source={Flag} style={{ width: 35, height: 35, right: 90 }} />
+          data={this.state.languages}
+          keyExtractor={(item) => { return item.language_id }}
+          renderItem={({ item }) => {
+            let image = getBaseUrl() + 'static/language/' + item.language_image
+            return (
+              <TouchableOpacity
+                style={styles.CountriesCards}
+                onPress={() => this.props.navigation.navigate('Levels', { language_id: item.language_id })}>
+                <Image source={{ uri: image }} style={{ width: 35, height: 35, right: 90 }} />
 
-              <Text style={styles.CountriesCardsText} key={item.key}>
-                {' '}
-                {item.title}
-              </Text>
-            </TouchableOpacity>
-          )}
+                <Text style={styles.CountriesCardsText} key={item.key}>
+                  {'  '}
+                  {item.language_name}
+                </Text>
+              </TouchableOpacity>
+            )
+          }}
         />
       </View>
     );

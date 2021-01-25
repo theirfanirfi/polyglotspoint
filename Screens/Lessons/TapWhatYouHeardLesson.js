@@ -3,6 +3,8 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { Icon, Badge } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import { shuffleArray } from '../utils'
+import TrackPlayer from 'react-native-track-player';
+import { getBaseUrl } from '../../apis/';
 
 export default class PairsToMatchLesson extends React.Component {
 
@@ -14,13 +16,57 @@ export default class PairsToMatchLesson extends React.Component {
         correct_sentence_tags: [],
         tags: [],
         user_tags_translation: [],
-        lesson: []
+        lesson: [],
+        playback: 'Stopped'
     }
 
     static = {
         lesson: PropTypes.object,
         lessonIndex: PropTypes.number,
         nextLesson: PropTypes.func
+    }
+
+    getPlayBackState(playback) {
+        switch (state) {
+            case TrackPlayer.STATE_NONE:
+                return "None";
+            case TrackPlayer.STATE_PLAYING:
+                return "Playing";
+            case TrackPlayer.STATE_PAUSED:
+                return "Paused";
+            case TrackPlayer.STATE_STOPPED:
+                return "Stopped";
+            case TrackPlayer.STATE_BUFFERING:
+                return "Buffering";
+        }
+    }
+
+    playSound = async () => {
+
+
+        // Starts playing it
+        let url = getBaseUrl() + 'static/audio/' + this.state.lesson.lesson.sounds
+
+        const currentTrack = await TrackPlayer.getCurrentTrack();
+        if (currentTrack == null) {
+            await TrackPlayer.reset();
+            await TrackPlayer.add({
+                id: 'tap-what-you-hear',
+                url: url
+            })
+            this.setState({ playback: 'Playing' }, async () => {
+                await TrackPlayer.play();
+            })
+        } else {
+            if (this.state.playback === TrackPlayer.STATE_PAUSED) {
+                await TrackPlayer.play();
+            } else {
+                this.setState({ playback: 'Playing' }, async () => {
+                    await TrackPlayer.stop();
+                    await TrackPlayer.reset();
+                })
+            }
+        }
     }
 
     componentDidMount() {
@@ -33,9 +79,25 @@ export default class PairsToMatchLesson extends React.Component {
             lesson: lesson,
             tags: shuffleArray(options),
             correct_sentence_tags: correct_option
-        })
+        }, async () => {
+            await TrackPlayer.setupPlayer({});
+            await TrackPlayer.updateOptions({
+                stopWithApp: true,
+                capabilities: [
+                    TrackPlayer.CAPABILITY_PLAY,
+                    TrackPlayer.CAPABILITY_PAUSE,
+                    TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
+                    TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
+                    TrackPlayer.CAPABILITY_STOP
+                ],
+                compactCapabilities: [
+                    TrackPlayer.CAPABILITY_PLAY,
+                    TrackPlayer.CAPABILITY_PAUSE
+                ]
+            });
 
 
+        });
     }
 
 
@@ -122,7 +184,7 @@ export default class PairsToMatchLesson extends React.Component {
                 <Text style={{ color: 'white', fontSize: 22 }}>Tap What you hear</Text>
 
                 <View style={{ flex: 0.4, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={{ marginTop: 20 }}>
+                    <TouchableOpacity onPress={() => this.playSound()} style={{ marginTop: 20 }}>
                         <Icon name='volume-up' size={80} color='green' style={{ alignSelf: 'flex-start' }} />
                     </TouchableOpacity>
                 </View>

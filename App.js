@@ -35,8 +35,8 @@ function headerRight(navigation) {
     return (
 
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <Icon name='heart' size={25} style={{ color: 'red', right: 15 }} />
-            <Text style={{ color: 'red', fontWeight: 'bold', right: 7, fontSize: 18 }}>{score}</Text>
+            {/* <Icon name='heart' size={25} style={{ color: 'red', right: 15 }} /> */}
+            {/* <Text style={{ color: 'red', fontWeight: 'bold', right: 7, fontSize: 18 }}>{score}</Text> */}
             <TouchableOpacity style={MainStyle.profile_pic_container} onPress={() => navigation.navigate('Account')}>
                 <Image source={BoyImage} style={MainStyle.profile_pic} />
             </TouchableOpacity>
@@ -90,7 +90,7 @@ class App extends React.Component {
             return (
 
                 <NavigationContainer>
-                    <Stack.Navigator initialRouteName='Lessons'
+                    <Stack.Navigator initialRouteName='SelectLanguages'
                         screenOptions={({ navigation }) => ({
                             backgroundColor: '#080a09',
                             headerStyle: { backgroundColor: '#080a09' },
@@ -105,7 +105,7 @@ class App extends React.Component {
                         headerMode="float"
                         animation="fade"
                     >
-                        <Stack.Screen name='Select Languages' component={SelectLanguages}
+                        <Stack.Screen name='SelectLanguages' component={SelectLanguages}
                             options={{ title: 'I Want to Learn...', }} />
 
                         <Stack.Screen name='Levels' component={Levels} />
