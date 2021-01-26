@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import BoyImage from '../assets/Images/boy.png'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { get, getBaseUrl } from '../apis/';
+import ProgressCircle from 'react-native-progress-circle'
 
 class Groups extends React.Component {
   state = {
@@ -40,12 +41,19 @@ class Groups extends React.Component {
             columnWrapperStyle={{ justifyContent: 'space-between' }}
             data={this.state.groups}
             renderItem={({ item }) => (
-
-              <TouchableOpacity style={styles.GroupsCard} onPress={() => this.props.navigation.navigate('Lessons', { group_id: item.group_id })}>
-                <Image source={BoyImage} style={{ width: 100, height: 100, borderRadius: 200, marginTop: 10 }} />
-                <Text style={{ marginTop: 3, fontFamily: 'BalsamiqSans-Italic', color: '#60AA6D' }}>{item.group_name}</Text>
-              </TouchableOpacity>
-
+              <ProgressCircle
+                percent={50}
+                radius={60}
+                borderWidth={8}
+                color="#3399FF"
+                shadowColor="#999"
+                bgColor="#fff"
+              >
+                <TouchableOpacity style={styles.GroupsCard} onPress={() => this.props.navigation.navigate('Lessons', { group_id: item.group_id })}>
+                  {/* <Image source={BoyImage} style={{ width: 100, height: 100, borderRadius: 200, marginTop: 10 }} /> */}
+                  <Text style={{ marginTop: 3, fontFamily: 'BalsamiqSans-Italic', color: '#60AA6D' }}>{item.group_name}</Text>
+                </TouchableOpacity>
+              </ProgressCircle>
             )}
           />
 

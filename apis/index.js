@@ -17,3 +17,9 @@ export const get = async (url) => {
     let jsonResponse = await response.json();
     return jsonResponse;
 }
+
+export const post = async (url, form) => {
+    let response = await fetch(BASE_URL + 'api/' + url, { method: 'POST', body: form })
+    let jsonResponse = await response.json();
+    return jsonResponse;
+}

@@ -27,10 +27,6 @@ import SetNewPassword from './Screens/SetNewPassowrd'
 
 const Stack = createStackNavigator();
 
-let score = 1
-
-
-
 function headerRight(navigation) {
     return (
 
@@ -52,12 +48,7 @@ class App extends React.Component {
 
 
     render() {
-
-
-
-
-
-        if (this.state.isLoggedIn) {
+        if (!this.state.isLoggedIn) {
 
             return (
                 <NavigationContainer>
