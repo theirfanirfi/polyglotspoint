@@ -1,11 +1,8 @@
 import React from 'react';
-import { View, Text, Button, FlatList, Image, RefreshControl } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, FlatList, Image, RefreshControl } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../Style/MainStyle';
-import Flag from '../assets/Images/americaFlag.png';
 import * as Progress from 'react-native-progress';
-import { plainToClass } from 'class-transformer';
-import { Language } from '../models/Language';
 import { get, getBaseUrl } from '../apis/'
 
 

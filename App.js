@@ -1,13 +1,12 @@
 import 'reflect-metadata';
 import 'react-native-gesture-handler';
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, ActivityIndicator, StyleSheet, NativeModules } from 'react-native'
+import { View, TouchableOpacity, Image, ActivityIndicator, StyleSheet } from 'react-native'
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Icon from 'react-native-vector-icons/FontAwesome'
 import GetStart from './Screens/GetStart'
 import Register from './Screens/Register'
 import Login from './Screens/Login'

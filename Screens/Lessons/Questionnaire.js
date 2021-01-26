@@ -1,9 +1,10 @@
 import React from 'react'
-import { Text, View, TouchableOpacity } from 'react-native';
-import { Icon, Badge } from 'react-native-elements'
+import { Text, View } from 'react-native';
+import { Icon, Button } from 'react-native-elements'
 import PropTypes from 'prop-types';
-import { shuffleArray } from '../utils'
 import TagSelector from 'react-native-tag-selector';
+import { post, getToken } from '../../apis/';
+
 
 export default class Questionnaire extends React.Component {
 
@@ -14,7 +15,8 @@ export default class Questionnaire extends React.Component {
     state = {
         selectedTags: [],
         tags: [],
-        questionnaire: []
+        questionnaire: [],
+        u_tags: []
     }
 
     static = {
@@ -35,10 +37,33 @@ export default class Questionnaire extends React.Component {
 
         this.setState({
             questionnaire: questionnaire,
-            tags: formated_tags
+            tags: formated_tags,
+            u_tags: q_tags
         })
 
 
+    }
+
+    saveProgress = async () => {
+        let questionnaire_tags = []
+        this.state.selectedTags.forEach((e, i) => {
+            questionnaire_tags.push(this.state.u_tags[i]);
+        })
+        let token = await getToken()
+
+        let form = new FormData()
+        form.append("group_id", this.state.questionnaire.group_id);
+        form.append("q_tags", JSON.stringify(questionnaire_tags));
+        form.append("language_id", this.state.questionnaire.language_id);
+        form.append("level_id", this.state.questionnaire.level_id);
+        form.append("user_id", 1);
+
+        let response = await post('acomplishments/save_progress', form, token)
+        if (response.isSaved) {
+            this.props.backToLevel(true, '');
+        } else {
+            this.props.backToLevel(false, response.message)
+        }
     }
 
 
@@ -94,7 +119,18 @@ export default class Questionnaire extends React.Component {
                 </View>
 
                 <View style={{ flex: 0.2, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'center' }}>
-                    <Text style={{ color: 'white', alignSelf: 'center' }}>Save progress</Text>
+                    <Button
+                        onPress={() => this.saveProgress()}
+                        buttonStyle={{ backgroundColor: '#3FCA89' }}
+                        icon={
+                            <Icon
+                                name="check-circle"
+                                size={20}
+                                color="white"
+                            />
+                        }
+                        title=" Save Progress"
+                    />
                 </View>
 
             </View>

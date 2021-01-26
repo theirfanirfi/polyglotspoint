@@ -1,9 +1,7 @@
 import React from 'react'
-import { View, Text, Button, Image, FlatList, RefreshControl } from 'react-native'
+import { View, Text, Image, FlatList, RefreshControl } from 'react-native'
 import styles from '../Style/MainStyle'
 import * as Progress from 'react-native-progress';
-import Icon from 'react-native-vector-icons/FontAwesome'
-import BoyImage from '../assets/Images/boy.png'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { get, getBaseUrl } from '../apis'
 

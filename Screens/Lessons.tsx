@@ -1,8 +1,8 @@
 import React from 'react'
-import { Text, View, Button, TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native';
 import MainStyle from '../Style/MainStyle';
 import * as Progress from 'react-native-progress';
-import { getLanuguageLessons, get, getBaseUrl } from '../apis';
+import { get } from '../apis';
 import SentenceLessonBuilder from '../Builders/SentenceLessonBuilder';
 import SimpleSentenceLesson from './Lessons/SimpleSentenceLesson'
 import ImagesLesson from './Lessons/ImagesLesson'
@@ -10,7 +10,7 @@ import WriteThisLesson from './Lessons/WriteThisLesson'
 import PairsToMatchLesson from './Lessons/PairsToMatchLesson'
 import TapWhatYouHeardLesson from './Lessons/TapWhatYouHeardLesson'
 import Questionnaire from './Lessons/Questionnaire'
-import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
@@ -30,8 +30,24 @@ class Lessons extends React.Component {
         group_id: 0,
         questionnaire: []
     }
-    backToLevel = (group) => {
-        console.log(group)
+    backToLevel = async (isDone, message) => {
+        if (isDone) {
+            await showMessage({
+                message: "Progress saved",
+                type: "success",
+                position: 'bottom',
+                icon: 'success'
+            });
+
+            this.props.navigation.pop();
+        } else {
+            showMessage({
+                message: message,
+                type: "danger",
+                position: 'bottom',
+                icon: 'danger'
+            });
+        }
     }
 
     nextLesson = (isLessonPassed, index) => {

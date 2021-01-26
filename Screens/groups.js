@@ -1,11 +1,9 @@
 import React from 'react'
-import { View, Text, Button, Image, FlatList, RefreshControl } from 'react-native'
+import { View, Text, FlatList, RefreshControl } from 'react-native'
 import styles from '../Style/MainStyle'
 import * as Progress from 'react-native-progress';
-import Icon from 'react-native-vector-icons/FontAwesome'
-import BoyImage from '../assets/Images/boy.png'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { get, getBaseUrl } from '../apis/';
+import { get } from '../apis/';
 import ProgressCircle from 'react-native-progress-circle'
 
 class Groups extends React.Component {
@@ -18,6 +16,7 @@ class Groups extends React.Component {
   async componentDidMount() {
     const { level_id } = await this.props.route.params
     const groups = await get(`levels/${level_id}`)
+
     this.setState({
       groups: groups,
       level_id: level_id,
