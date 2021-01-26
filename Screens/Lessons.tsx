@@ -9,6 +9,7 @@ import ImagesLesson from './Lessons/ImagesLesson'
 import WriteThisLesson from './Lessons/WriteThisLesson'
 import PairsToMatchLesson from './Lessons/PairsToMatchLesson'
 import TapWhatYouHeardLesson from './Lessons/TapWhatYouHeardLesson'
+import Questionnaire from './Lessons/Questionnaire'
 import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -18,6 +19,7 @@ class Lessons extends React.Component {
     constructor(props) {
         super(props);
         this.nextLesson = this.nextLesson.bind(this);
+        this.backToLevel = this.backToLevel.bind(this);
     }
 
     state = {
@@ -25,7 +27,11 @@ class Lessons extends React.Component {
         lessons: [],
         lessonView: null,
         score: 0,
-        group_id: 0
+        group_id: 0,
+        questionnaire: []
+    }
+    backToLevel = (group) => {
+        console.log(group)
     }
 
     nextLesson = (isLessonPassed, index) => {
@@ -102,12 +108,20 @@ class Lessons extends React.Component {
                     lessonView: <TapWhatYouHeardLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
                 })
             }
+        } else if (index == this.state.lessons.length) {
+            this.setState({
+                lessonView: <Questionnaire questionnaire={this.state.questionnaire} lessonIndex={index} backToLevel={this.backToLevel} />
+            })
         }
     }
     async componentDidMount() {
         const { group_id } = await this.props.route.params
         let lessons = await get(`lessons/group/${group_id}`)
-        this.setState({ lessons: lessons, group_id: group_id }, () => this.getLesson(0));
+        this.setState({
+            lessons: lessons.lessons,
+            questionnaire: lessons.questionnaire,
+            group_id: group_id
+        }, () => this.getLesson(0));
     }
 
     render() {

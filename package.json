@@ -40,6 +40,7 @@
     "react-native-smooth-pincode-input": "^1.0.9",
     "react-native-sound-player": "^0.10.5",
     "react-native-svg": "^12.1.0",
+    "react-native-tag-selector": "0.0.3",
     "react-native-tags": "^2.2.0",
     "react-native-track-player": "^1.2.3",
     "react-native-vector-icons": "^7.1.0",
