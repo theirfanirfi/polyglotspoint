@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button, Image, FlatList } from 'react-native'
+import { View, Text, Button, Image, FlatList, RefreshControl } from 'react-native'
 import styles from '../Style/MainStyle'
 import * as Progress from 'react-native-progress';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -11,13 +11,14 @@ class Levels extends React.Component {
     state = {
         language_id: 0,
         levels: [],
-        selected_item_id: ''
+        selected_item_id: '',
+        refreshing: true,
     }
 
     async componentDidMount() {
         const { language_id } = await this.props.route.params
         const levels = await get('languages/' + language_id);
-        this.setState({ language_id: language_id, levels: levels });
+        this.setState({ language_id: language_id, levels: levels, refreshing: false });
     }
     render() {
 
@@ -37,6 +38,12 @@ class Levels extends React.Component {
                 <View style={styles.LevelCardsContainer}>
                     <FlatList
                         numColumns={2}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this.onRefresh}
+                            />
+                        }
                         keyExtractor={(item) => { return item.level_id }}
                         columnWrapperStyle={{ justifyContent: 'space-between' }}
                         data={this.state.levels}

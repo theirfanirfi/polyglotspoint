@@ -43,7 +43,6 @@ export default class SimpleSentenceLesson extends React.Component {
 
             }
         }
-        return null;
     }
     prepareSentence() {
         let sentence = "";

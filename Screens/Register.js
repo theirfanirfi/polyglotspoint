@@ -1,11 +1,13 @@
 import React from 'react'
 import styles from '../Style/GetStartstyle'
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, Button } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, NativeModules, Button } from 'react-native'
 
 import RBSheet from "react-native-raw-bottom-sheet";
 import { get, post } from '../apis/';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import DropDownPicker from 'react-native-dropdown-picker';
+import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Register extends React.Component {
     state = {
@@ -21,6 +23,15 @@ class Register extends React.Component {
         form_country: "",
         form_age: ""
 
+    }
+
+    storeData = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('user', jsonValue)
+        } catch (e) {
+            // saving error
+        }
     }
 
     async componentDidMount() {
@@ -53,7 +64,27 @@ class Register extends React.Component {
         formdata.append("country", this.state.form_country);
         formdata.append("password", this.state.form_password);
         const response = await post('users/signup', formdata)
-        console.log(response);
+        if (response.isRegistered) {
+
+            showMessage({
+                message: response.message,
+                type: "success",
+                position: 'center',
+                icon: 'success'
+            });
+
+            await this.storeData(response.user)
+            NativeModules.DevSettings.reload()
+
+        } else {
+            showMessage({
+                message: response.message,
+                type: "danger",
+                position: 'center',
+                icon: 'danger'
+            });
+        }
+
     }
 
 
@@ -76,9 +107,9 @@ class Register extends React.Component {
                         <Text style={styles.RegisterTitle}>Register</Text>
 
 
-                        <TouchableOpacity onPress={() => this.RBSheet.open()} style={{ borderColor: '#36413d', backgroundColor: '#36413d', borderRadius: 100, justifyContent: 'center', alignItems: 'center', width: 70, height: 70, marginTop: 20 }}>
+                        {/* <TouchableOpacity onPress={() => this.RBSheet.open()} style={{ borderColor: '#36413d', backgroundColor: '#36413d', borderRadius: 100, justifyContent: 'center', alignItems: 'center', width: 70, height: 70, marginTop: 20 }}>
                             <Icon name='user' color='white' size={50} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                     </View>
 
@@ -209,6 +240,9 @@ class Register extends React.Component {
 
                     </View>
                     {/* End RegisterationForm */}
+
+                    <FlashMessage position="top" />
+
                 </ScrollView>
 
 

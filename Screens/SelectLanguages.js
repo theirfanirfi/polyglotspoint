@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, FlatList, Image } from 'react-native';
+import { View, Text, Button, FlatList, Image, RefreshControl } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import styles from '../Style/MainStyle';
 import Flag from '../assets/Images/americaFlag.png';
@@ -61,11 +61,17 @@ let navigateToAccount = '';
 
 class SelectLanguages extends React.Component {
   state = {
-    languages: []
+    languages: [],
+    refreshing: true
   }
   async componentDidMount() {
     const languages = await get('languages')
-    this.setState({ languages: languages })
+    this.setState({ languages: languages, refreshing: false })
+  }
+  onRefresh = async () => {
+    this.setState({ refreshing: true });
+    const languages = await get('languages')
+    this.setState({ languages: languages, refreshing: false })
   }
 
   render() {
@@ -74,6 +80,12 @@ class SelectLanguages extends React.Component {
         <FlatList
           data={this.state.languages}
           keyExtractor={(item) => { return item.language_id }}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
           renderItem={({ item }) => {
             let image = getBaseUrl() + 'static/language/' + item.language_image
             return (

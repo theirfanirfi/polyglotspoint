@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Button, Image, FlatList } from 'react-native'
+import { View, Text, Button, Image, FlatList, RefreshControl } from 'react-native'
 import styles from '../Style/MainStyle'
 import * as Progress from 'react-native-progress';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -12,6 +12,7 @@ class Groups extends React.Component {
   state = {
     groups: [],
     level_id: 0,
+    refreshing: true,
   }
 
   async componentDidMount() {
@@ -19,8 +20,13 @@ class Groups extends React.Component {
     const groups = await get(`levels/${level_id}`)
     this.setState({
       groups: groups,
-      level_id: level_id
+      level_id: level_id,
+      refreshing: false
     })
+  }
+
+  onRefresh = async () => {
+
   }
   render() {
     return (
@@ -37,6 +43,12 @@ class Groups extends React.Component {
         <View style={styles.GroupsCardsContainer}>
           <FlatList
             numColumns={2}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this.onRefresh}
+              />
+            }
             keyExtractor={(item) => { return item.group_id }}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
             data={this.state.groups}

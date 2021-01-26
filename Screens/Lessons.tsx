@@ -78,28 +78,30 @@ class Lessons extends React.Component {
     }
 
     getLesson = (index) => {
-        let lesson = this.state.lessons[index];
-        if (lesson.lesson.is_straight_translation == 1) {
-            let builder = this.buildeLesson(lesson);
-            this.setState({
-                lessonView: <SimpleSentenceLesson builder={builder} lessonIndex={index} nextLesson={this.nextLesson} />
-            })
-        } else if (lesson.lesson.is_multiple_images == 1) {
-            this.setState({
-                lessonView: <ImagesLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
-            })
-        } else if (lesson.lesson.is_write_this == 1) {
-            this.setState({
-                lessonView: <WriteThisLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
-            })
-        } else if (lesson.lesson.is_pairs_to_match == 1) {
-            this.setState({
-                lessonView: <PairsToMatchLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
-            })
-        } else if (lesson.lesson.is_tap_what_you_hear == 1) {
-            this.setState({
-                lessonView: <TapWhatYouHeardLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
-            })
+        if (index < this.state.lessons.length) {
+            let lesson = this.state.lessons[index];
+            if (lesson.lesson.is_straight_translation == 1) {
+                let builder = this.buildeLesson(lesson);
+                this.setState({
+                    lessonView: <SimpleSentenceLesson builder={builder} lessonIndex={index} nextLesson={this.nextLesson} />
+                })
+            } else if (lesson.lesson.is_multiple_images == 1) {
+                this.setState({
+                    lessonView: <ImagesLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
+                })
+            } else if (lesson.lesson.is_write_this == 1) {
+                this.setState({
+                    lessonView: <WriteThisLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
+                })
+            } else if (lesson.lesson.is_pairs_to_match == 1) {
+                this.setState({
+                    lessonView: <PairsToMatchLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
+                })
+            } else if (lesson.lesson.is_tap_what_you_hear == 1) {
+                this.setState({
+                    lessonView: <TapWhatYouHeardLesson lesson={lesson} lessonIndex={index} nextLesson={this.nextLesson} />
+                })
+            }
         }
     }
     async componentDidMount() {
