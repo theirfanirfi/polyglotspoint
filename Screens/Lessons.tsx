@@ -10,6 +10,7 @@ import WriteThisLesson from './Lessons/WriteThisLesson'
 import PairsToMatchLesson from './Lessons/PairsToMatchLesson'
 import TapWhatYouHeardLesson from './Lessons/TapWhatYouHeardLesson'
 import Questionnaire from './Lessons/Questionnaire'
+import Ad from './Lessons/Ad'
 import FlashMessage, { showMessage } from "react-native-flash-message";
 import Icon from 'react-native-vector-icons/FontAwesome'
 
@@ -20,6 +21,7 @@ class Lessons extends React.Component {
         super(props);
         this.nextLesson = this.nextLesson.bind(this);
         this.backToLevel = this.backToLevel.bind(this);
+        this.showQuestionnaire = this.showQuestionnaire.bind(this);
     }
 
     state = {
@@ -28,8 +30,16 @@ class Lessons extends React.Component {
         lessonView: null,
         score: 0,
         group_id: 0,
-        questionnaire: []
+        questionnaire: [],
+        ad: []
     }
+
+    showQuestionnaire = () => {
+        this.setState({
+            lessonView: <Questionnaire questionnaire={this.state.questionnaire} backToLevel={this.backToLevel} />
+        })
+    }
+
     backToLevel = async (isDone, message) => {
         if (isDone) {
             await showMessage({
@@ -100,6 +110,8 @@ class Lessons extends React.Component {
     }
 
     getLesson = (index) => {
+        console.log('current index: ' + index)
+        console.log("lessons length: " + this.state.lessons.length)
         if (index < this.state.lessons.length) {
             let lesson = this.state.lessons[index];
             if (lesson.lesson.is_straight_translation == 1) {
@@ -126,7 +138,7 @@ class Lessons extends React.Component {
             }
         } else if (index == this.state.lessons.length) {
             this.setState({
-                lessonView: <Questionnaire questionnaire={this.state.questionnaire} lessonIndex={index} backToLevel={this.backToLevel} />
+                lessonView: <Ad ad={this.state.ad} lessonIndex={index} showQuestionnaire={this.showQuestionnaire} />
             })
         }
     }
@@ -136,6 +148,7 @@ class Lessons extends React.Component {
         this.setState({
             lessons: lessons.lessons,
             questionnaire: lessons.questionnaire,
+            ad: lessons.ads[0],
             group_id: group_id
         }, () => this.getLesson(0));
     }
@@ -154,6 +167,7 @@ class Lessons extends React.Component {
             </View>
         )
     }
+
 }
 
 export default Lessons

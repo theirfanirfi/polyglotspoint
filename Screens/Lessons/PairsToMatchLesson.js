@@ -50,16 +50,19 @@ export default class PairsToMatchLesson extends React.Component {
 
     checkLesson() {
         let count = 0;
+        let lesson = this.state.lesson
+        let sentence = lesson.lesson.sentence != undefined ? lesson.lesson.sentence.replace("-", " ") : undefined
+        let correct_tags = sentence != undefined ? sentence.split(" ") : undefined
         console.log('user length: ' + this.state.user_tags_translation.length)
-        console.log('correct length: ' + this.state.correct_sentence_tags.length)
-        if (this.state.user_tags_translation.length == this.state.correct_sentence_tags.length) {
+        console.log('correct length: ' + correct_tags.length)
+        if (this.state.user_tags_translation.length == correct_tags.length) {
             for (let i = 0; i < this.state.user_tags_translation.length; i++) {
-                if (this.state.user_tags_translation[i] === this.state.correct_sentence_tags[i]) {
+                if (this.state.user_tags_translation[i] === correct_tags[i]) {
                     count++;
                 }
             }
 
-            if (count === this.state.correct_sentence_tags.length) {
+            if (count === correct_tags.length) {
                 this.props.nextLesson(true, this.props.lessonIndex);
             } else {
                 this.props.nextLesson(false, this.props.lessonIndex);

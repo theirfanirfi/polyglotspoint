@@ -31,11 +31,11 @@ class Groups extends React.Component {
     return (
       <View style={styles.GroupsContainer}>
 
-        <View style={styles.ProgressBarcontainer}>
+        {/* <View style={styles.ProgressBarcontainer}>
 
           <Progress.Bar progress={0.5} width={250} color={'#60AA6D'} />
 
-        </View>
+        </View> */}
 
 
 

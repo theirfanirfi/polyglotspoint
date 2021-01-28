@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import 'react-native-gesture-handler';
 import React from 'react';
 import { View, TouchableOpacity, Image, ActivityIndicator, StyleSheet } from 'react-native'
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -41,8 +40,6 @@ function headerRight(navigation) {
         } catch (e) {
             // remove error
         }
-
-        console.log('Done.')
     }
 
     return (
@@ -56,27 +53,38 @@ function headerRight(navigation) {
         </View>
     )
 }
+
 class App extends React.Component {
     state = {
         isLoggedIn: false,
         isLoading: true,
     }
 
+
     getData = async () => {
         try {
             let value = await AsyncStorage.getItem('user')
             if (value !== null) {
-                this.setState({ isLoggedIn: true, isLoading: false })
-                console.log('login true, loading false')
+                // this.setState({ isLoggedIn: true, isLoading: false })
+                // console.log('login true, loading false')
 
+                return {
+                    isLoggedIn: true,
+                    isLoading: false,
+                }
             } else {
-                this.setState({ isLoading: false })
-                console.log('loading false')
+                // this.setState({ isLoading: false })
+                // console.log('loading false')
+                return {
+                    isLoggedIn: false,
+                    isLoading: false,
+                }
             }
         } catch (e) {
-            // error reading value
-            this.setState({ isLoading: false })
-            console.log('loading false')
+            return {
+                isLoggedIn: false,
+                isLoading: false,
+            }
 
         }
     }
@@ -94,8 +102,11 @@ class App extends React.Component {
     }
 
     async componentDidMount() {
-        this.setState({ isLoading: true })
-        await this.getData()
+
+        setTimeout(async () => {
+            let data = await this.getData();
+            this.setState({ isLoading: data.isLoading, isLoggedIn: data.isLoggedIn })
+        }, 1000);
         // this.removeValue()
     }
 
@@ -151,7 +162,7 @@ class App extends React.Component {
                     animation="fade"
                     initialRouteName={!this.state.isLoggedIn ? 'GetStarted' : 'SelectLanguages'}>
                     {/* {!this.state.isLoggedIn ? (
-                        <> */}
+                            <> */}
                     <Stack.Screen name='GetStarted' component={GetStart} options={{ headerShown: false }} />
                     <Stack.Screen name='Register' component={Register} />
                     <Stack.Screen name='Login' component={Login} />
@@ -159,8 +170,8 @@ class App extends React.Component {
                     <Stack.Screen name='Enter Code' component={EnterCode} />
                     <Stack.Screen name='SetNewPassword' component={SetNewPassword} />
                     {/* </>
-                    ) : (
-                            <> */}
+                        ) : (
+                                <> */}
 
 
                     <Stack.Screen name='SelectLanguages' component={SelectLanguages}
@@ -176,7 +187,7 @@ class App extends React.Component {
                     <Stack.Screen name='Account' component={Account} />
                     {/* </>
 
-                        )} */}
+                            )} */}
 
 
 
@@ -226,6 +237,8 @@ class App extends React.Component {
         //     }
 
     }
+
+
 }
 
 

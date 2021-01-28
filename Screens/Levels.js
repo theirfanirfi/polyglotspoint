@@ -24,13 +24,13 @@ class Levels extends React.Component {
 
         return (
             <View style={styles.LevelsContainer}>
-                <View style={styles.ProgressBarcontainer}>
+                {/* <View style={styles.ProgressBarcontainer}>
 
                     <Progress.Bar progress={0.3} width={250} color={'#60AA6D'} />
 
-                </View>
+                </View> */}
 
-                <Text style={{ marginTop: 20, color: 'white', left: 20, color: '#60AA6D', fontSize: 18, fontFamily: 'BalsamiqSans-Bold' }}>Which one of These is the 'Boy ' ? </Text>
+                {/* <Text style={{ marginTop: 20, color: 'white', left: 20, color: '#60AA6D', fontSize: 18, fontFamily: 'BalsamiqSans-Bold' }}>Which one of These is the 'Boy ' ? </Text> */}
 
 
                 <View style={styles.LevelCardsContainer}>

@@ -45,9 +45,10 @@ export const getLanuguageLessons = async (context, language_id) => {
 }
 
 export const get = async (url) => {
+    let token = await getToken();
     let response = await fetch(BASE_URL + 'api/' + url, {
         headers:
-            { "Authorization": 'something' }
+            { "Authorization": token }
     })
     let jsonResponse = await response.json();
     return jsonResponse;

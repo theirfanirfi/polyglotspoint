@@ -67,6 +67,7 @@ export default class Questionnaire extends React.Component {
     }
 
 
+
     static getDerivedStateFromProps(props, state) {
         if (state.questionnaire != props.questionnaire && props.questionnaire != undefined) {
             return {

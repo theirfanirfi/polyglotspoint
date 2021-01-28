@@ -4,13 +4,15 @@ import styles from '../Style/GetStartstyle'
 import { post } from '../apis/'
 import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { AuthContext } from '../redux/AuthContext';
+const { signIn } = React.createContext(AuthContext);
 class Login extends React.Component {
 
     state = {
         form_email: "",
         form_password: "",
     }
+
 
     storeData = async (value) => {
         try {
@@ -38,7 +40,12 @@ class Login extends React.Component {
 
             this.storeData(response.user)
 
-            this.props.navigation.navigate('SelectLanguages')
+            // this.props.navigation.navigate('SelectLanguages')
+            this.props.navigation.pop();
+            this.props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'SelectLanguages' }]
+            });
 
         } else {
             showMessage({

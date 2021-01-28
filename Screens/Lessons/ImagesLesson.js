@@ -1,9 +1,9 @@
 import React from 'react'
 import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
-import SentenceLessonBuilder from '../../Builders/SentenceLessonBuilder';
 import WordDropDownComponent from './WordDropDownComponent'
-import { Icon, Badge } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
 import PropTypes from 'prop-types';
+import { getBaseUrl } from '../../apis';
 
 export default class ImagesLesson extends React.Component {
 
@@ -90,9 +90,10 @@ export default class ImagesLesson extends React.Component {
                     keyExtractor={(item) => { return item.id; }}
                     numColumns={2}
                     renderItem={({ item, index }) => {
+                        console.log(index);
                         return (
-                            <TouchableOpacity onPress={() => this.checkLesson(item.word)} style={{ width: '48%', borderWidth: 1, margin: 4, borderColor: 'white', justifyContent: 'center' }}>
-                                <Image style={{ width: 180, height: 200 }} source={{ uri: "http://192.168.10.6:5000/static/lesson/" + item.image }} />
+                            <TouchableOpacity key={index} onPress={() => this.checkLesson(item.word)} style={{ width: '48%', borderWidth: 1, margin: 4, borderColor: 'white', justifyContent: 'center' }}>
+                                <Image style={{ width: 180, height: 200 }} source={{ uri: getBaseUrl() + "static/lesson/" + item.image }} />
                                 <Text style={{ color: 'white', alignSelf: 'center', fontSize: 20 }}>{item.word}</Text>
                             </TouchableOpacity>
                         )

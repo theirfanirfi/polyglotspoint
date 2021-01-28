@@ -46,7 +46,9 @@
     "react-native-track-player": "^1.2.3",
     "react-native-vector-icons": "^7.1.0",
     "react-native-walkthrough-tooltip": "^1.1.11",
+    "react-redux": "^7.2.2",
     "react-test-renderer": "^17.0.1",
+    "redux": "^4.0.5",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
