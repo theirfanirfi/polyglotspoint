@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, Text, Image, FlatList, RefreshControl, ScrollView } from 'react-native'
-import { Icon } from 'react-native-elements'
+import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native'
 import styles from '../Style/MainStyle'
-import * as Progress from 'react-native-progress';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { get, getBaseUrl } from '../apis'
+import XP from '../assets/Images/xp.png'
+
 
 class Levels extends React.Component {
     state = {
@@ -12,34 +12,38 @@ class Levels extends React.Component {
         levels: [],
         selected_item_id: '',
         refreshing: true,
+        xp: 20,
+        isLoading: true,
     }
 
     async componentDidMount() {
         const { language_id } = await this.props.route.params
         const levels = await get('languages/' + language_id);
         console.log(levels);
-        this.setState({ language_id: language_id, levels: levels, refreshing: false });
+        this.setState({ language_id: language_id, levels: levels, isLoading: false });
     }
     render() {
-
+        if (this.state.isLoading) {
+            return (
+                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: '#080a09' }}>
+                    <ActivityIndicator style={{ alignSelf: 'center' }} size="large" color="#60AA6D" />
+                    <Text style={{ color: 'white', alignSelf: 'center' }}>The language is being loaded...</Text>
+                </View>
+            )
+        }
 
 
         return (
             <View style={styles.LevelsContainer}>
-                {/* <View style={styles.ProgressBarcontainer}>
+                <View style={{ flexDirection: 'row', marginLeft: 12 }}>
+                    <Image style={{ width: 30, height: 30 }} source={XP} />
+                    <Text style={{ color: 'white', marginTop: 4, marginLeft: 8, fontSize: 16 }}>{this.state.xp}</Text>
+                </View>
 
-                    <Progress.Bar progress={0.3} width={250} color={'#60AA6D'} />
-
-                </View> */}
-
-                {/* <Text style={{ marginTop: 20, color: 'white', left: 20, color: '#60AA6D', fontSize: 18, fontFamily: 'BalsamiqSans-Bold' }}>Which one of These is the 'Boy ' ? </Text> */}
-
-
-                <ScrollView>
+                <ScrollView style={{ marginTop: 18 }}>
                     {this.state.levels.map((row, index) => {
                         var level = row.level;
                         var groups = row.groups;
-                        // console.log(row.groups);
                         return (
                             <View style={{ marginTop: 12 }}>
 
@@ -52,12 +56,13 @@ class Levels extends React.Component {
 
                                 </View>
 
-                                <FlatList
-                                    style={{ marginHorizontal: 12, borderTopColor: '#60AA6D', borderWidth: 1 }}
-                                    numColumns={3}
-                                    data={groups}
-                                    keyExtractor={(item) => { return item.group_id }}
-                                    renderItem={({ item }) => {
+                                <View
+                                    style={{
+                                        marginHorizontal: 12, flex: 1, flexDirection: 'row', flexWrap: 'wrap',
+                                        borderTopColor: '#60AA6D', borderWidth: 1
+                                    }}
+                                >
+                                    {groups.map((item, index) => {
                                         return (
 
                                             <TouchableOpacity style={[styles.GroupsCard, { marginHorizontal: 4, alignSelf: 'stretch' }]} onPress={() => {
@@ -72,8 +77,8 @@ class Levels extends React.Component {
                                             </TouchableOpacity>
 
                                         )
-                                    }}
-                                />
+                                    })}
+                                </View>
 
                             </View>
                         )

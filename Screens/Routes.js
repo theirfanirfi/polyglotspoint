@@ -38,8 +38,8 @@ function headerRight(navigation) {
     return (
 
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-            <Icon name='heart' size={25} style={{ color: 'red', right: 15 }} />
-            <Text style={{ color: 'red', fontWeight: 'bold', right: 7, fontSize: 18 }}>{score}</Text>
+            {/* <Icon name='heart' size={25} style={{ color: 'red', right: 15 }} /> */}
+            {/* <Text style={{ color: 'red', fontWeight: 'bold', right: 7, fontSize: 18 }}>{score}</Text> */}
             <TouchableOpacity style={MainStyle.profile_pic_container} onPress={() => removeValue()}>
                 <Image source={BoyImage} style={MainStyle.profile_pic} />
             </TouchableOpacity>

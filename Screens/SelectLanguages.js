@@ -9,19 +9,29 @@ import { get, getBaseUrl } from '../apis/'
 class SelectLanguages extends React.Component {
   state = {
     languages: [],
-    refreshing: true
+    refreshing: true,
+    isLoading: true,
   }
   async componentDidMount() {
     const languages = await get('languages')
-    this.setState({ languages: languages, refreshing: false })
+    this.setState({ languages: languages, refreshing: false, isLoading: false })
   }
   onRefresh = async () => {
     this.setState({ refreshing: true });
     const languages = await get('languages')
-    this.setState({ languages: languages, refreshing: false })
+    this.setState({ languages: languages, refreshing: false, isLoading: false })
   }
 
   render() {
+
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: '#080a09' }}>
+          <ActivityIndicator style={{ alignSelf: 'center' }} size="large" color="#60AA6D" />
+          <Text style={{ color: 'white', alignSelf: 'center' }}>Please wait...</Text>
+        </View>
+      )
+    }
     return (
       <View style={styles.SelctLanguagescontainer}>
         <FlatList
