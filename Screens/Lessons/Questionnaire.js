@@ -106,8 +106,8 @@ export default class Questionnaire extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6, justifyContent: 'center' }}>
-                <Text style={{ color: 'white', fontSize: 22, alignSelf: 'center' }}>Tier Completed</Text>
-                <Text style={{ color: 'white', fontSize: 16, alignSelf: 'center' }}>Answer Questionnaire and Save the progress</Text>
+                <Text style={{ color: 'white', fontSize: 22, alignSelf: 'center', fontFamily: 'BalsamiqSans-Bold', }}>Tier Completed</Text>
+                <Text style={{ color: 'white', fontSize: 16, alignSelf: 'center', fontFamily: 'BalsamiqSans-Bold', }}>Answer Questionnaire and Save the progress</Text>
 
 
 

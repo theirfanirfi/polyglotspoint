@@ -64,6 +64,9 @@ getLoggedInScreenOptions = (navigation) => {
 }
 
 
+
+
+
 const Stack = createStackNavigator();
 
 export default function RootNavigator() {
@@ -106,11 +109,24 @@ function authNavigator() {
     )
 }
 
+function getScreenOptions() {
 
+    return (
+        {
+            headerStyle: { backgroundColor: '#080a09' },
+            headerTintColor: '#60AA6D',
+            headerTitleStyle: { color: '#60AA6D' },
+            headerTitle: 'Back',
+            gestureEnabled: true,
+            gestureDirection: 'horizontal',
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+        }
+    )
+}
 
 function notLoggedInNavigator() {
     return (
-        <Stack.Navigator initialRouteName="GetStarted" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="GetStarted" screenOptions={({ navigation }) => getScreenOptions()}>
             <Stack.Screen name='GetStarted' component={GetStart} options={{ headerShown: false }} />
             <Stack.Screen name='Register' component={Register} />
             <Stack.Screen name='Login' component={Login} />

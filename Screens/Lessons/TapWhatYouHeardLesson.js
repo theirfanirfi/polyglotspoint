@@ -181,11 +181,11 @@ export default class PairsToMatchLesson extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
-                <Text style={{ color: 'white', fontSize: 22 }}>Tap What you hear</Text>
+                <Text style={{ color: 'white', fontSize: 22, fontFamily: 'BalsamiqSans-Bold', }}>Tap What you hear</Text>
 
                 <View style={{ flex: 0.4, justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => this.playSound()} style={{ marginTop: 20 }}>
-                        <Icon name='volume-up' size={80} color='green' style={{ alignSelf: 'flex-start' }} />
+                        <Icon name='volume-up' size={80} color='#60AA6D' style={{ alignSelf: 'flex-start' }} />
                     </TouchableOpacity>
                 </View>
 

@@ -129,9 +129,9 @@ export default class SimpleSentenceLesson extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
-                <Text style={{ color: 'green', fontSize: 22 }}>Translate</Text>
+                <Text style={{ color: '#60AA6D', fontSize: 22, fontFamily: 'BalsamiqSans-Bold', }}>Translate</Text>
                 <TouchableOpacity style={{ marginTop: 20 }}>
-                    <Icon name='volume-up' size={40} color='green' style={{ alignSelf: 'flex-start' }} />
+                    <Icon name='volume-up' size={40} color='#60AA6D' style={{ alignSelf: 'flex-start' }} />
                 </TouchableOpacity>
                 <View style={{ flex: 0.4, flexDirection: 'row', marginTop: 12 }}>
 

@@ -38,6 +38,7 @@ class Levels extends React.Component {
                         numColumns={2}
                         refreshControl={
                             <RefreshControl
+                                enabled={true}
                                 refreshing={this.state.refreshing}
                                 onRefresh={this.onRefresh}
                             />

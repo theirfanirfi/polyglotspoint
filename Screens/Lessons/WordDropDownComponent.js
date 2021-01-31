@@ -55,11 +55,11 @@ export default class SimpleSentenceLesson extends React.Component {
                     onClose={() => this.setState({ popup: false })}
 
                 >
-                    <Text onPress={() => this.setState({ popup: !this.state.popup })} style={{ color: 'green', alignSelf: 'flex-start', textDecorationLine: 'underline', marginHorizontal: 3, marginVertical: 1, fontSize: 20 }}>{this.state.word.replace("-", " ")}</Text>
+                    <Text onPress={() => this.setState({ popup: !this.state.popup })} style={{ color: '#60AA6D', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', alignSelf: 'flex-start', textDecorationLine: 'underline', marginHorizontal: 3, marginVertical: 1 }}>{this.state.word.replace("-", " ")}</Text>
                 </Tooltip>
             )
         } else {
-            return <Text style={{ color: 'white', marginHorizontal: 3, alignSelf: 'flex-start', fontSize: 20 }}>{this.state.word.replace("-", " ")}</Text>
+            return <Text style={{ color: 'white', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', marginHorizontal: 3, alignSelf: 'flex-start' }}>{this.state.word.replace("-", " ")}</Text>
         }
     }
 

@@ -77,7 +77,7 @@ export default class ImagesLesson extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
                 <TouchableOpacity style={{ marginTop: 20 }}>
-                    <Icon name='volume-up' size={40} color='green' style={{ alignSelf: 'flex-start' }} />
+                    <Icon name='volume-up' size={40} color='#60AA6D' style={{ alignSelf: 'flex-start' }} />
                 </TouchableOpacity>
                 <View style={{ flex: 0.1, flexDirection: 'row', marginTop: 12 }}>
                     {this.prepareSentence()}

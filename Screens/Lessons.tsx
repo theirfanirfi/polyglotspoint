@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native';
+import { Text, View, ActivityIndicator } from 'react-native';
 import MainStyle from '../Style/MainStyle';
 import * as Progress from 'react-native-progress';
 import { get } from '../apis';
@@ -31,11 +31,12 @@ class Lessons extends React.Component {
         score: 0,
         group_id: 0,
         questionnaire: [],
-        ad: []
+        ad: [],
+        isLoading: true
     }
 
     showQuestionnaire = () => {
-        if (this.state.questionnaire != null) {
+        if (this.state.questionnaire != undefined) {
             this.setState({
                 lessonView: <Questionnaire questionnaire={this.state.questionnaire} backToLevel={this.backToLevel} />
             })
@@ -155,13 +156,23 @@ class Lessons extends React.Component {
         let lessons = await get(`lessons/group/${group_id}`)
         this.setState({
             lessons: lessons.lessons,
-            questionnaire: lessons.questionnaire.length > 0 ? lessons.questionnaire : null,
+            questionnaire: lessons.questionnaire != undefined ? lessons.questionnaire : null,
             ad: lessons.ads.length > 0 ? lessons.ads[0] : null,
-            group_id: group_id
+            group_id: group_id,
+            isLoading: false,
         }, () => this.getLesson(0));
     }
 
     render() {
+        if (this.state.isLoading) {
+            return (
+                <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, backgroundColor: '#080a09' }}>
+                    <ActivityIndicator size="large" color="white" />
+                    <Text style={{ color: 'white' }}>Please wait a moment</Text>
+                </View>
+            )
+        }
+
         return (
             <View style={MainStyle.LessonsContainer}>
                 <Icon name='heart' size={20} style={{ color: 'red', marginRight: 12, marginTop: 12, alignSelf: 'flex-end' }} >

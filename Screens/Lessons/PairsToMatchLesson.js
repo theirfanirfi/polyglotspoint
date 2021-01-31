@@ -125,9 +125,9 @@ export default class PairsToMatchLesson extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
                 <TouchableOpacity style={{ marginTop: 20 }}>
-                    <Icon name='volume-up' size={40} color='green' style={{ alignSelf: 'flex-start' }} />
+                    <Icon name='volume-up' size={40} color='#60AA6D' style={{ alignSelf: 'flex-start' }} />
                 </TouchableOpacity>
-                <Text style={{ color: 'white', fontSize: 22 }}>Match Pairs</Text>
+                <Text style={{ color: 'white', fontSize: 22, fontFamily: 'BalsamiqSans-Bold' }}>Match Pairs</Text>
 
 
 
