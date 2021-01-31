@@ -54,6 +54,15 @@ export const get = async (url) => {
     return jsonResponse;
 }
 
+export const get_withParam = async (url, token) => {
+    let response = await fetch(BASE_URL + 'api/' + url, {
+        headers:
+            { "Authorization": token }
+    })
+    let jsonResponse = await response.json();
+    return jsonResponse;
+}
+
 export const post = async (url, form, token) => {
     let response = await fetch(BASE_URL + 'api/' + url,
         {

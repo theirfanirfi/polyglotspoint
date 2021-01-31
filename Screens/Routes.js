@@ -18,6 +18,7 @@ import Lessons from './Lessons'
 import ForgotPassword from './ForgotPassword'
 import EnterCode from './EnterCode'
 import SetNewPassword from './SetNewPassowrd'
+import VerificationCode from './VerificationCode'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -133,6 +134,7 @@ function notLoggedInNavigator() {
             <Stack.Screen name='Forgot Password' component={ForgotPassword} />
             <Stack.Screen name='Enter Code' component={EnterCode} />
             <Stack.Screen name='SetNewPassword' component={SetNewPassword} />
+            <Stack.Screen name='ConfirmationCode' component={VerificationCode} />
         </Stack.Navigator>
     )
 }

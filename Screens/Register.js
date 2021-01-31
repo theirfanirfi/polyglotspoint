@@ -39,13 +39,13 @@ class Register extends React.Component {
 
         let countries = response.countries.map((e, i) => {
 
-            return { label: e.country_name, value: e.country_id, icon: () => <Icon name="flag" size={18} color='#60AA6D' /> }
+            return { label: e.country_name, value: e.country_name, icon: () => <Icon name="flag" size={18} color='#60AA6D' /> }
 
         })
 
         let continents = response.continents.map((e, i) => {
 
-            return { label: e.continent_name, value: e.continent_id, icon: () => <Icon name="flag" size={18} color='#60AA6D' /> }
+            return { label: e.continent_name, value: e.continent_name, icon: () => <Icon name="flag" size={18} color='#60AA6D' /> }
 
         })
 
@@ -73,8 +73,8 @@ class Register extends React.Component {
                 icon: 'success'
             });
 
-            await this.storeData(response.user)
-            NativeModules.DevSettings.reload()
+            // await this.storeData(response.user)
+            this.props.navigation.navigate('ConfirmationCode', { token: response.user.token })
 
         } else {
             showMessage({
