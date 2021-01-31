@@ -14,16 +14,12 @@ class GetStart extends React.Component {
         try {
             let value = await AsyncStorage.getItem('user')
             if (value !== null) {
-                // this.setState({ isLoggedIn: true, isLoading: false })
-                // console.log('login true, loading false')
 
                 return {
                     isLoggedIn: true,
                     isLoading: false,
                 }
             } else {
-                // this.setState({ isLoading: false })
-                // console.log('loading false')
                 return {
                     isLoggedIn: false,
                     isLoading: false,
@@ -51,7 +47,6 @@ class GetStart extends React.Component {
             })
 
         }, 2000);
-        // this.removeValue()
     }
 
     render() {

@@ -1,7 +1,5 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, Image } from 'react-native'
-
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 
 
@@ -122,11 +120,3 @@ function notLoggedInNavigator() {
         </Stack.Navigator>
     )
 }
-
-// export default function Routes() {
-//     return (
-//         <NavigationContainer>
-//             <RootNavigator />
-//         </NavigationContainer>
-//     )
-// }
