@@ -39,12 +39,9 @@ class Login extends React.Component {
             });
 
             this.storeData(response.user)
-
-            // this.props.navigation.navigate('SelectLanguages')
-            this.props.navigation.pop();
             this.props.navigation.reset({
                 index: 0,
-                routes: [{ name: 'SelectLanguages' }]
+                routes: [{ name: 'auth', screen: 'SelectLanguages' }]
             });
 
         } else {

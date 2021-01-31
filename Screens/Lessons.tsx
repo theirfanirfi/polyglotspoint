@@ -35,9 +35,13 @@ class Lessons extends React.Component {
     }
 
     showQuestionnaire = () => {
-        this.setState({
-            lessonView: <Questionnaire questionnaire={this.state.questionnaire} backToLevel={this.backToLevel} />
-        })
+        if (this.state.questionnaire != null) {
+            this.setState({
+                lessonView: <Questionnaire questionnaire={this.state.questionnaire} backToLevel={this.backToLevel} />
+            })
+        } else {
+            this.backToLevel(true, 'progress saved');
+        }
     }
 
     backToLevel = async (isDone, message) => {
@@ -79,7 +83,7 @@ class Lessons extends React.Component {
                 position: 'bottom',
                 icon: 'danger'
             });
-            console.log('failed index: ' + index);
+
             let lessons = this.state.lessons
             let lesson = lessons[index];
             lessons.splice(index, 1);
@@ -87,7 +91,6 @@ class Lessons extends React.Component {
 
             this.setState({ lessons: lessons }, () => {
                 this.getLesson(index);
-                // console.log('failed length: ' + this.state.lessons.length)
             });
 
         }
@@ -137,9 +140,14 @@ class Lessons extends React.Component {
                 })
             }
         } else if (index == this.state.lessons.length) {
-            this.setState({
-                lessonView: <Ad ad={this.state.ad} lessonIndex={index} showQuestionnaire={this.showQuestionnaire} />
-            })
+            if (this.state.ad != null) {
+                // this.props.navigation.navigate('ads', { ad: this.state.ad });
+                this.setState({
+                    lessonView: <Ad ad={this.state.ad} lessonIndex={index} showQuestionnaire={this.showQuestionnaire} />
+                })
+            } else {
+                this.showQuestionnaire();
+            }
         }
     }
     async componentDidMount() {
@@ -147,8 +155,8 @@ class Lessons extends React.Component {
         let lessons = await get(`lessons/group/${group_id}`)
         this.setState({
             lessons: lessons.lessons,
-            questionnaire: lessons.questionnaire,
-            ad: lessons.ads[0],
+            questionnaire: lessons.questionnaire.length > 0 ? lessons.questionnaire : null,
+            ad: lessons.ads.length > 0 ? lessons.ads[0] : null,
             group_id: group_id
         }, () => this.getLesson(0));
     }

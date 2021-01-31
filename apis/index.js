@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import base64 from 'react-native-base64'
 
-const BASE_URL = "http://192.168.10.6:5000/";
+const BASE_URL = "http://192.168.10.2:5000/";
 
 export const getData = async () => {
     try {

@@ -24,14 +24,16 @@ export default class Ad extends React.Component {
 
     componentDidMount() {
 
+        // let { ad } = this.props.route.params
         let { ad } = this.props
         this.setState({
             ad: ad,
         });
 
         setTimeout(() => {
+            // this.props.navigation.pop();
             this.props.showQuestionnaire();
-        }, 3000)
+        }, 4000)
 
 
     }
