@@ -132,7 +132,7 @@ function notLoggedInNavigator() {
             <Stack.Screen name='Register' component={Register} />
             <Stack.Screen name='Login' component={Login} />
             <Stack.Screen name='Forgot Password' component={ForgotPassword} />
-            <Stack.Screen name='Enter Code' component={EnterCode} />
+            <Stack.Screen name='EnterCode' component={EnterCode} />
             <Stack.Screen name='SetNewPassword' component={SetNewPassword} />
             <Stack.Screen name='ConfirmationCode' component={VerificationCode} />
         </Stack.Navigator>

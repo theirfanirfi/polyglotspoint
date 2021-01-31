@@ -63,6 +63,12 @@ export const get_withParam = async (url, token) => {
     return jsonResponse;
 }
 
+export const get_noParam = async (url) => {
+    let response = await fetch(BASE_URL + 'api/' + url)
+    let jsonResponse = await response.json();
+    return jsonResponse;
+}
+
 export const post = async (url, form, token) => {
     let response = await fetch(BASE_URL + 'api/' + url,
         {
