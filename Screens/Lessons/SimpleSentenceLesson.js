@@ -51,7 +51,7 @@ export default class SimpleSentenceLesson extends React.Component {
         let builder = this.state.builder
         if (builder != undefined) {
             sentence = builder.words.map((element, index) => {
-                let dropdownlist = {}
+                let dropdownlist = undefined
                 let sound = ''
                 let dropdown = builder.lesson.dropdown;
 

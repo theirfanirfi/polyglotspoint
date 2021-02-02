@@ -123,10 +123,9 @@ export default class WriteThisLesson extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
                 <PlaySound sound={this.state.lesson.lesson.sounds} />
-                <Text style={{ color: 'white', fontSize: 22, fontFamily: 'BalsamiqSans-Bold' }}>{this.state.lesson.lesson.sentence.replace("-", " ")}</Text>
+                <Text style={{ color: '#60AA6D', fontSize: 22, fontFamily: 'BalsamiqSans-Bold' }}>{this.state.lesson.lesson.write_this_in_sentence}</Text>
 
-
-
+                <Text style={{ color: 'white', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', marginTop: 12 }}>{this.state.lesson.lesson.sentence.replace("-", " ")}</Text>
 
                 <View style={{ marginTop: 40, flexWrap: 'wrap', flex: 0.2, borderBottomColor: 'white', borderBottomWidth: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
                     {/* <Text style={{ color: 'white', fontSize: 16, borderBottomColor: 'white', borderBottomWidth: 1 }}></Text> */}
