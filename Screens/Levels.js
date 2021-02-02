@@ -4,9 +4,13 @@ import styles from '../Style/MainStyle'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { get, getBaseUrl } from '../apis'
 import XP from '../assets/Images/xp.png'
+import SoundPlayer from 'react-native-sound-player'
+import Sound from 'react-native-sound';
 
 
 class Levels extends React.Component {
+
+
     state = {
         language_id: 0,
         levels: [],
@@ -16,11 +20,37 @@ class Levels extends React.Component {
         isLoading: true,
     }
 
+    async playSound() {
+        try {
+            // or play from urlou
+
+            SoundPlayer.loadUrl('http://commondatastorage.googleapis.com/codeskulptor-assets/Collision8-Bit.ogg')
+            // SoundPlayer.onFinishedLoading((success) => {
+            //     console.log('playing')
+            //     SoundPlayer.play()
+            // })
+            // SoundPlayer.onFinishedPlaying((success) => {
+            //     console.log('stopped')
+            //     SoundPlayer.stop()
+            //     // SoundPlayer.unmount()
+            // })
+            // SoundPlayer.playUrl()
+
+        } catch (e) {
+            console.log(`cannot play the sound file`, e)
+        }
+    }
+
+
+
     async componentDidMount() {
         const { language_id } = await this.props.route.params
         const levels = await get('languages/' + language_id);
         console.log(levels);
         this.setState({ language_id: language_id, levels: levels, isLoading: false });
+    }
+
+    componentWillUnmount() {
     }
     render() {
         if (this.state.isLoading) {
@@ -35,10 +65,10 @@ class Levels extends React.Component {
 
         return (
             <View style={styles.LevelsContainer}>
-                <View style={{ flexDirection: 'row', marginLeft: 12 }}>
+                {/* <View style={{ flexDirection: 'row', marginLeft: 12 }}>
                     <Image style={{ width: 30, height: 30 }} source={XP} />
                     <Text style={{ color: 'white', marginTop: 4, marginLeft: 8, fontSize: 16 }}>{this.state.xp}</Text>
-                </View>
+                </View> */}
 
                 <ScrollView style={{ marginTop: 18 }}>
                     {this.state.levels.map((row, index) => {
@@ -47,7 +77,7 @@ class Levels extends React.Component {
                         return (
                             <View style={{ marginTop: 12 }}>
 
-                                <TouchableOpacity style={[styles.LevelCard, { alignSelf: 'center' }]}>
+                                <TouchableOpacity onPress={() => this.playSound()} style={[styles.LevelCard, { alignSelf: 'center' }]}>
                                     <Image source={{ uri: getBaseUrl() + 'static/level/' + level.level_image }} style={{ width: 130, height: 130, borderRadius: 4, marginTop: 10 }} />
                                     <Text style={{ marginTop: 8, fontFamily: 'BalsamiqSans-Italic', color: '#60AA6D' }}>{level.level_name}</Text>
                                     <Text style={{ marginTop: 8, fontFamily: 'BalsamiqSans-Italic', color: '#60AA6D', position: 'absolute', bottom: 4, right: 6 }}>{level.total_done}/{level.total_groups}</Text>

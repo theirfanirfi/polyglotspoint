@@ -28,9 +28,17 @@ export default class SentenceLessonBuilder extends Builder {
 
     formSentenceWithWordsDropDown() {
         for (let word in this.words) {
-            let dd = this.lesson.dropdown[this.words[word]]
+            // let dd = this.lesson.dropdown[this.words[word]]
+            let dd = this.lesson.dropdown[word]
             if (dd != undefined) {
-                this.dropdown = dd.split(";")
+
+
+                var dropdownwords = dd[this.words[word]]
+                var wd = this.words[word]
+                // console.log(wd)
+                // this.dropdown[wd] = dropdownwords.split(";")
+                // this.dropdown['sound'] = dd['sound']
+                this.dropdown = { wd: dropdownwords.split(";"), 'sound': dd['sound'] }
             }
         }
 

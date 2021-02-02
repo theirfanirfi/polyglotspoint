@@ -2,8 +2,9 @@ import React from 'react'
 import { Text, View, TouchableOpacity } from 'react-native';
 import SentenceLessonBuilder from '../../Builders/SentenceLessonBuilder';
 import WordDropDownComponent from './WordDropDownComponent'
-import { Icon, Badge } from 'react-native-elements'
+import { Badge } from 'react-native-elements'
 import PropTypes from 'prop-types';
+import PlaySound from './PlaySound'
 
 export default class SimpleSentenceLesson extends React.Component {
 
@@ -15,7 +16,8 @@ export default class SimpleSentenceLesson extends React.Component {
         correct_sentence_tags: [],
         tags: [],
         user_tags_translation: [],
-        lesson: []
+        lesson: [],
+        builder: SentenceLessonBuilder
     }
 
     static = {
@@ -49,8 +51,19 @@ export default class SimpleSentenceLesson extends React.Component {
         let builder = this.state.builder
         if (builder != undefined) {
             sentence = builder.words.map((element, index) => {
-                let dropdown = builder.lesson.dropdown[element];
-                return <WordDropDownComponent word={element} dropdownlist={dropdown} />
+                let dropdownlist = {}
+                let sound = ''
+                let dropdown = builder.lesson.dropdown;
+
+                for (let d in dropdown) {
+                    if (dropdown[d][element] != undefined) {
+                        dropdownlist = dropdown[d][element];
+                        sound = dropdown[d]['sound']
+                        break;
+                    }
+                }
+
+                return <WordDropDownComponent word={element} dropdownlist={dropdownlist} sound={sound} />
             })
         }
 
@@ -130,9 +143,7 @@ export default class SimpleSentenceLesson extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
                 <Text style={{ color: '#60AA6D', fontSize: 22, fontFamily: 'BalsamiqSans-Bold', }}>Translate</Text>
-                <TouchableOpacity style={{ marginTop: 20 }}>
-                    <Icon name='volume-up' size={40} color='#60AA6D' style={{ alignSelf: 'flex-start' }} />
-                </TouchableOpacity>
+                <PlaySound sound={this.state.builder.lesson.lesson.sounds} />
                 <View style={{ flex: 0.4, flexDirection: 'row', marginTop: 12 }}>
 
                     {this.prepareSentence()}

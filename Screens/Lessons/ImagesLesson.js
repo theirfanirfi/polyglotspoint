@@ -4,6 +4,7 @@ import WordDropDownComponent from './WordDropDownComponent'
 import { Icon } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import { getBaseUrl } from '../../apis';
+import PlaySound from './PlaySound'
 
 export default class ImagesLesson extends React.Component {
 
@@ -52,8 +53,20 @@ export default class ImagesLesson extends React.Component {
         let words = this.state.lesson.lesson.sentence != undefined ? this.state.lesson.lesson.sentence.split(" ") : undefined;
         if (words != undefined) {
             sentence = words.map((element, index) => {
-                let dropdown = this.state.lesson.dropdown[element];
-                return <WordDropDownComponent word={element} dropdownlist={dropdown} />
+                // let dropdown = this.state.lesson.dropdown[element];
+                let dropdownlist = undefined
+                let sound = ''
+                let dropdownd = this.state.lesson.dropdown;
+                for (let d in dropdownd) {
+                    console.log(d)
+                    if (dropdownd[d][element] != undefined) {
+                        dropdownlist = dropdownd[d][element]
+                        sound = dropdownd[d]['sound']
+                        // console.log(w + ' ' + soundd)
+                        break;
+                    }
+                }
+                return <WordDropDownComponent word={element} dropdownlist={dropdownlist} sound={sound} />
             })
         }
         return sentence == "" ? null : sentence;
@@ -76,9 +89,7 @@ export default class ImagesLesson extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
-                <TouchableOpacity style={{ marginTop: 20 }}>
-                    <Icon name='volume-up' size={40} color='#60AA6D' style={{ alignSelf: 'flex-start' }} />
-                </TouchableOpacity>
+                <PlaySound sound={this.state.lesson.lesson.sounds} />
                 <View style={{ flex: 0.1, flexDirection: 'row', marginTop: 12 }}>
                     {this.prepareSentence()}
                 </View>

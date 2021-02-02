@@ -5,3 +5,8 @@ export const shuffleArray = (array) => {
 export const getRandomInt = (max) => {
     return Math.floor(Math.random() * Math.floor(max));
 }
+
+// export const getSoundPlayer = async (sound_link) => {
+//     var sound = new Sound(sound_link);
+//     return sound;
+// }
