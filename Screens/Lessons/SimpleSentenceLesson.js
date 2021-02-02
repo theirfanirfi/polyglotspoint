@@ -147,6 +147,11 @@ export default class SimpleSentenceLesson extends React.Component {
                 <View style={{ flex: 0.4, flexDirection: 'row', marginTop: 12 }}>
 
                     {this.prepareSentence()}
+                    <Badge
+                        containerStyle={{ marginTop: 10, marginLeft: 4 }}
+                        value={this.state.builder.lesson.lesson.masculine_feminine_neutral}
+                        status="success"
+                    />
                 </View>
 
                 <View style={{ marginTop: 40, flexWrap: 'wrap', flex: 0.2, borderBottomColor: 'white', borderBottomWidth: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>

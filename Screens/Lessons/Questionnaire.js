@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { Icon, Button } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import TagSelector from 'react-native-tag-selector';
-import { post, getToken } from '../../apis/';
+import { post, getToken, get } from '../../apis/';
 
 
 export default class Questionnaire extends React.Component {
@@ -56,7 +56,6 @@ export default class Questionnaire extends React.Component {
         form.append("q_tags", JSON.stringify(questionnaire_tags));
         form.append("language_id", this.state.questionnaire.language_id);
         form.append("level_id", this.state.questionnaire.level_id);
-        form.append("user_id", 1);
 
         let response = await post('acomplishments/save_progress', form, token)
         if (response.isSaved) {
@@ -76,30 +75,6 @@ export default class Questionnaire extends React.Component {
             }
         }
         return null;
-    }
-
-
-    checkLesson() {
-        let count = 0;
-        console.log('user length: ' + this.state.user_tags_translation.length)
-        console.log('correct length: ' + this.state.correct_sentence_tags.length)
-        if (this.state.user_tags_translation.length == this.state.correct_sentence_tags.length) {
-            for (let i = 0; i < this.state.user_tags_translation.length; i++) {
-                if (this.state.user_tags_translation[i] === this.state.correct_sentence_tags[i]) {
-                    count++;
-                }
-            }
-
-            if (count === this.state.correct_sentence_tags.length) {
-                this.props.nextLesson(true, this.props.lessonIndex);
-            } else {
-                this.props.nextLesson(false, this.props.lessonIndex);
-            }
-        } else {
-            // console.log("translated: " + this.state.user_tags_translation.length);
-            // console.log("correct: " + this.state.builder.correct_sentence_length);
-        }
-
     }
 
 

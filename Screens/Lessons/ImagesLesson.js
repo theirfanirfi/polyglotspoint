@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, TouchableOpacity, Image, FlatList } from 'react-native';
 import WordDropDownComponent from './WordDropDownComponent'
-import { Icon } from 'react-native-elements'
+import { Badge, Icon } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import { getBaseUrl } from '../../apis';
 import PlaySound from './PlaySound'
@@ -62,7 +62,6 @@ export default class ImagesLesson extends React.Component {
                     if (dropdownd[d][element] != undefined) {
                         dropdownlist = dropdownd[d][element]
                         sound = dropdownd[d]['sound']
-                        // console.log(w + ' ' + soundd)
                         break;
                     }
                 }
@@ -92,6 +91,11 @@ export default class ImagesLesson extends React.Component {
                 <PlaySound sound={this.state.lesson.lesson.sounds} />
                 <View style={{ flex: 0.1, flexDirection: 'row', marginTop: 12 }}>
                     {this.prepareSentence()}
+                    <Badge
+                        containerStyle={{ marginTop: 8, marginLeft: 2 }}
+                        value={this.state.lesson.lesson.masculine_feminine_neutral}
+                        status="success"
+                    />
                 </View>
 
 

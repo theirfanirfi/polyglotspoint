@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { Icon, Badge } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import { shuffleArray } from '../utils'
+import PlaySound from './PlaySound'
 
 export default class WriteThisLesson extends React.Component {
 
@@ -50,16 +51,16 @@ export default class WriteThisLesson extends React.Component {
 
     checkLesson() {
         let count = 0;
-        console.log('user length: ' + this.state.user_tags_translation.length)
-        console.log('correct length: ' + this.state.correct_sentence_tags.length)
-        if (this.state.user_tags_translation.length == this.state.correct_sentence_tags.length) {
+        let correct_tags = this.state.lesson.lesson.translation != undefined ? this.state.lesson.lesson.translation.split(" ") : undefined
+
+        if (this.state.user_tags_translation.length == correct_tags.length) {
             for (let i = 0; i < this.state.user_tags_translation.length; i++) {
-                if (this.state.user_tags_translation[i] === this.state.correct_sentence_tags[i]) {
+                if (this.state.user_tags_translation[i] === correct_tags[i]) {
                     count++;
                 }
             }
 
-            if (count === this.state.correct_sentence_tags.length) {
+            if (count === correct_tags.length) {
                 this.props.nextLesson(true, this.props.lessonIndex);
             } else {
                 this.props.nextLesson(false, this.props.lessonIndex);
@@ -121,10 +122,9 @@ export default class WriteThisLesson extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
-                <TouchableOpacity style={{ marginTop: 20 }}>
-                    <Icon name='volume-up' size={40} color='#60AA6D' style={{ alignSelf: 'flex-start' }} />
-                </TouchableOpacity>
+                <PlaySound sound={this.state.lesson.lesson.sounds} />
                 <Text style={{ color: 'white', fontSize: 22, fontFamily: 'BalsamiqSans-Bold' }}>{this.state.lesson.lesson.sentence.replace("-", " ")}</Text>
+
 
 
 
