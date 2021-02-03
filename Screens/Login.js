@@ -38,15 +38,16 @@ class Login extends React.Component {
                 icon: 'success'
             });
 
-            if (response.user.is_confirmed == 1) {
-                this.storeData(response.user)
-                this.props.navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'auth', screen: 'SelectLanguages' }]
-                });
-            } else {
-                this.props.navigation.navigate('ConfirmationCode', { token: response.user.token })
-            }
+            // if (response.user.is_confirmed == 1) {
+            await this.storeData(response.user)
+            this.props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'auth', screen: 'SelectLanguages' }]
+            });
+
+            // } else {
+            //     this.props.navigation.navigate('ConfirmationCode', { token: response.user.token })
+            // }
 
         } else {
             showMessage({

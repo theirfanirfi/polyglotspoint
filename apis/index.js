@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import base64 from 'react-native-base64'
 
 const BASE_URL = "http://192.168.10.6:5000/";
+// const BASE_URL = "https://polglotpoints.herokuapp.com/"
 
 export const getData = async () => {
     try {
@@ -46,6 +47,7 @@ export const getLanuguageLessons = async (context, language_id) => {
 
 export const get = async (url) => {
     let token = await getToken();
+    console.log(token);
     let response = await fetch(BASE_URL + 'api/' + url, {
         headers:
             { "Authorization": token }

@@ -73,8 +73,12 @@ class Register extends React.Component {
                 icon: 'success'
             });
 
-            // await this.storeData(response.user)
-            this.props.navigation.navigate('ConfirmationCode', { token: response.user.token })
+            await this.storeData(response.user)
+            this.props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'auth', screen: 'SelectLanguages' }]
+            });
+            // this.props.navigation.navigate('ConfirmationCode', { token: response.user.token })
 
         } else {
             showMessage({

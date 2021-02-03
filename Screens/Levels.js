@@ -45,7 +45,8 @@ class Levels extends React.Component {
 
     async componentDidMount() {
         const { language_id } = await this.props.route.params
-        const levels = await get('languages/' + language_id);
+        const levels = await get('languages/' + language_id + '/');
+        console.log(levels)
         console.log(levels);
         this.setState({ language_id: language_id, levels: levels, isLoading: false });
     }
@@ -62,6 +63,16 @@ class Levels extends React.Component {
             )
         }
 
+        if (this.state.levels == undefined) {
+            return (
+                <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', backgroundColor: '#080a09' }}>
+                    {/* <ActivityIndicator style={{ alignSelf: 'center' }} size="large" color="#60AA6D" /> */}
+                    <Text style={{ color: 'white', alignSelf: 'center' }}>You are not logged in</Text>
+                </View>
+            )
+        }
+
+
 
         return (
             <View style={styles.LevelsContainer}>
@@ -71,7 +82,7 @@ class Levels extends React.Component {
                 </View> */}
 
                 <ScrollView style={{ marginTop: 18 }}>
-                    {this.state.levels.map((row, index) => {
+                    {this.state.levels != undefined && this.state.levels.map((row, index) => {
                         var level = row.level;
                         var groups = row.groups;
                         return (
