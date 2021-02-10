@@ -193,9 +193,9 @@ class Lessons extends React.Component {
 
         return (
             <View style={MainStyle.LessonsContainer}>
-                <Icon name='heart' size={20} style={{ color: 'red', marginRight: 12, marginTop: 12, alignSelf: 'flex-end' }} >
+                {/* <Icon name='heart' size={20} style={{ color: 'red', marginRight: 12, marginTop: 12, alignSelf: 'flex-end' }} >
                     <Text style={{ color: 'white', marginLeft: 4 }}>  {this.state.score}</Text>
-                </Icon>
+                </Icon> */}
                 <>
                     {this.state.lessonView}
                     {this.state.bottom_ad_view}

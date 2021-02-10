@@ -18,7 +18,9 @@ export default class SimpleSentenceLesson extends React.Component {
         user_tags_translation: [],
         lesson: [],
         builder: SentenceLessonBuilder,
-        translation_text: ''
+        translation_text: '',
+        isVisibleRealMeaning: false,
+        isVisibleSecondaryMeaning: false,
     }
 
     static = {
@@ -167,18 +169,49 @@ export default class SimpleSentenceLesson extends React.Component {
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
                 <Text style={{ color: '#60AA6D', fontSize: 22, fontFamily: 'BalsamiqSans-Bold', }}>Translate</Text>
                 <PlaySound sound={this.state.builder.lesson.lesson.sounds} />
-                <View style={{ flex: 0.4, flexDirection: 'row', marginTop: 12 }}>
 
-                    {this.prepareSentence()}
-                    <Badge
-                        containerStyle={{ marginTop: 22, marginLeft: 4 }}
-                        value={this.state.builder.lesson.lesson.masculine_feminine_neutral}
-                        status="success"
-                    />
+                {this.state.builder.lesson.lesson.real_meaning && this.state.isVisibleRealMeaning &&
+                    <Text style={{ color: 'white', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', }}>
+                        {this.state.builder.lesson.lesson.real_meaning}
+                    </Text>
+                }
+
+                <View style={{ flex: 0.4, }}>
+                    <View style={{ flexDirection: 'row', marginTop: 12 }}>
+                        {this.prepareSentence()}
+                        <Badge
+                            containerStyle={{ marginTop: 22, marginLeft: 4 }}
+                            value={this.state.builder.lesson.lesson.masculine_feminine_neutral}
+                            status="success"
+                        />
+
+                        {this.state.builder.lesson.lesson.real_meaning &&
+                            <Badge
+                                onPress={() => this.setState({ isVisibleRealMeaning: !this.state.isVisibleRealMeaning })}
+                                containerStyle={{ marginTop: 22, marginLeft: 14 }}
+                                value='R'
+                                status="info"
+                            />
+                        }
+                    </View>
+
+                    {this.state.builder.lesson.lesson.secondary_meaning && this.state.isVisibleRealMeaning &&
+                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', }}>
+                            {this.state.builder.lesson.lesson.secondary_meaning}
+                        </Text>
+                    }
+
                 </View>
 
+
+
                 {this.state.builder.lesson.lesson.is_type_answer == 0 &&
-                    <View style={{ marginTop: 40, flexWrap: 'wrap', flex: 0.2, borderBottomColor: 'white', borderBottomWidth: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
+                    <View
+                        style={{
+                            marginTop: 40, flexWrap: 'wrap', flex: 0.2,
+                            borderBottomColor: 'white', borderBottomWidth: 1,
+                            justifyContent: 'flex-start', flexDirection: 'row'
+                        }}>
                         {/* <Text style={{ color: 'white', fontSize: 16, borderBottomColor: 'white', borderBottomWidth: 1 }}></Text> */}
                         {this.translatedTags()}
                     </View>
