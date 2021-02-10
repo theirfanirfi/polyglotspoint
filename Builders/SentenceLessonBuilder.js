@@ -56,7 +56,7 @@ export default class SentenceLessonBuilder extends Builder {
 
     makeTags() {
         this.tags = this.lesson.lesson.translation.split(" ")
-        this.tags = this.shuffleArray(this.tags);
+        this.tags = this.lesson.lesson.is_type_answer == 0 ? this.shuffleArray(this.tags) : this.tags;
         return this;
     }
 

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import base64 from 'react-native-base64'
 
-const BASE_URL = "http://192.168.10.6:5000/";
+const BASE_URL = "http://192.168.0.106:5000/";
 // const BASE_URL = "https://polglotpoints.herokuapp.com/"
 
 export const getData = async () => {
@@ -23,6 +23,7 @@ export const getToken = async () => {
         if (value !== null) {
             let user = await JSON.parse(value);
             let token = await base64.encode(user.token);
+            console.log(token)
             return token
         } else {
             return null;

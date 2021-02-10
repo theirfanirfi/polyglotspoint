@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, TextInput } from 'react-native';
 import SentenceLessonBuilder from '../../Builders/SentenceLessonBuilder';
 import WordDropDownComponent from './WordDropDownComponent'
 import { Badge } from 'react-native-elements'
@@ -17,7 +17,8 @@ export default class SimpleSentenceLesson extends React.Component {
         tags: [],
         user_tags_translation: [],
         lesson: [],
-        builder: SentenceLessonBuilder
+        builder: SentenceLessonBuilder,
+        translation_text: ''
     }
 
     static = {
@@ -54,16 +55,19 @@ export default class SimpleSentenceLesson extends React.Component {
                 let dropdownlist = undefined
                 let sound = ''
                 let dropdown = builder.lesson.dropdown;
+                let type = null
 
                 for (let d in dropdown) {
                     if (dropdown[d][element] != undefined) {
                         dropdownlist = dropdown[d][element];
                         sound = dropdown[d]['sound']
+                        type = dropdown[d]['type'];
+                        console.log('word type ' + type)
                         break;
                     }
                 }
 
-                return <WordDropDownComponent word={element} dropdownlist={dropdownlist} sound={sound} />
+                return <WordDropDownComponent word={element} dropdownlist={dropdownlist} type={type} sound={sound} />
             })
         }
 
@@ -104,6 +108,24 @@ export default class SimpleSentenceLesson extends React.Component {
 
     }
 
+    async checkWriting() {
+        let tags = this.state.correct_sentence_tags
+        console.log(tags)
+        let writing_text = this.state.translation_text.length > 0 ? this.state.translation_text.split(" ") : "";
+        let counter = 0;
+        if (tags.length == writing_text.length) {
+            for (let i = 0; i < tags.length; i++) {
+                if (tags[i] == writing_text[i]) {
+                    counter++;
+                }
+            }
+
+            if (counter == tags.length) {
+                console.log('it was the right one.')
+            }
+        }
+    }
+
     deTranslate(word, index) {
         let t_tags = this.state.user_tags_translation
         let tags = this.state.tags
@@ -140,6 +162,7 @@ export default class SimpleSentenceLesson extends React.Component {
     }
 
     render() {
+        console.log('is type answer: ' + this.state.builder.lesson.lesson.is_type_answer)
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
                 <Text style={{ color: '#60AA6D', fontSize: 22, fontFamily: 'BalsamiqSans-Bold', }}>Translate</Text>
@@ -148,19 +171,37 @@ export default class SimpleSentenceLesson extends React.Component {
 
                     {this.prepareSentence()}
                     <Badge
-                        containerStyle={{ marginTop: 10, marginLeft: 4 }}
+                        containerStyle={{ marginTop: 22, marginLeft: 4 }}
                         value={this.state.builder.lesson.lesson.masculine_feminine_neutral}
                         status="success"
                     />
                 </View>
 
-                <View style={{ marginTop: 40, flexWrap: 'wrap', flex: 0.2, borderBottomColor: 'white', borderBottomWidth: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
-                    {/* <Text style={{ color: 'white', fontSize: 16, borderBottomColor: 'white', borderBottomWidth: 1 }}></Text> */}
-                    {this.translatedTags()}
-                </View>
+                {this.state.builder.lesson.lesson.is_type_answer == 0 &&
+                    <View style={{ marginTop: 40, flexWrap: 'wrap', flex: 0.2, borderBottomColor: 'white', borderBottomWidth: 1, justifyContent: 'flex-start', flexDirection: 'row' }}>
+                        {/* <Text style={{ color: 'white', fontSize: 16, borderBottomColor: 'white', borderBottomWidth: 1 }}></Text> */}
+                        {this.translatedTags()}
+                    </View>
+                }
 
                 <View style={{ marginTop: 40, flex: 0.2, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
-                    {this.translationTags()}
+                    {this.state.builder.lesson.lesson.is_type_answer == 1 ? (
+
+                        <TextInput
+                            onChangeText={(text) => this.setState({ translation_text: text }, () => {
+                                this.checkWriting()
+                            })}
+                            focusable={true}
+                            placeholder='write'
+                            placeholderTextColor='white'
+                            style={{ borderBottomWidth: 1, fontSize: 18, color: 'white', borderBottomColor: 'white', width: '100%' }} />
+
+                    ) : (
+                            <>
+                                {this.translationTags()}
+
+                            </>
+                        )}
                 </View>
             </View>
         )

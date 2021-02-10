@@ -57,15 +57,18 @@ export default class ImagesLesson extends React.Component {
                 let dropdownlist = undefined
                 let sound = ''
                 let dropdownd = this.state.lesson.dropdown;
+                let type = null;
                 for (let d in dropdownd) {
-                    console.log(d)
+                    console.log(dropdownd[d])
                     if (dropdownd[d][element] != undefined) {
                         dropdownlist = dropdownd[d][element]
                         sound = dropdownd[d]['sound']
+                        type = dropdownd[d]['type']
+                        console.log(type)
                         break;
                     }
                 }
-                return <WordDropDownComponent word={element} dropdownlist={dropdownlist} sound={sound} />
+                return <WordDropDownComponent word={element} type={type} dropdownlist={dropdownlist} sound={sound} />
             })
         }
         return sentence == "" ? null : sentence;

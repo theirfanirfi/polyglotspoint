@@ -1,10 +1,11 @@
 import React from 'react'
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import TrackPlayer from 'react-native-track-player';
 import SentenceLessonBuilder from '../../Builders/SentenceLessonBuilder';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import { getBaseUrl } from '../../apis/'
+import { Badge } from 'react-native-elements'
 export default class SimpleSentenceLesson extends React.Component {
     constructor(props) {
         super(props);
@@ -14,7 +15,8 @@ export default class SimpleSentenceLesson extends React.Component {
         word: null,
         dropdown: [],
         popup: false,
-        sound: ''
+        sound: '',
+        type: null
     }
 
     static = {
@@ -22,8 +24,8 @@ export default class SimpleSentenceLesson extends React.Component {
     }
 
     async componentDidMount() {
-        let { word, dropdownlist, sound } = await this.props
-        this.setState({ sound: sound, word: word, dropdown: dropdownlist != undefined ? dropdownlist.split(";") : undefined }, async () => {
+        let { word, dropdownlist, sound, type } = await this.props
+        this.setState({ type: type, sound: sound, word: word, dropdown: dropdownlist != undefined ? dropdownlist.split(";") : undefined }, async () => {
             await TrackPlayer.setupPlayer({});
             await TrackPlayer.updateOptions({
                 stopWithApp: true,
@@ -94,7 +96,9 @@ export default class SimpleSentenceLesson extends React.Component {
 
     prepareDropDown(words) {
         let dropdown = words.map((e, i) => {
-            return <Text>{e}</Text>
+            return (
+                <Text>{e}</Text>
+            )
         })
 
         return dropdown;
@@ -115,11 +119,47 @@ export default class SimpleSentenceLesson extends React.Component {
                     onClose={() => this.setState({ popup: false })}
 
                 >
-                    <Text onPress={() => this.setState({ popup: !this.state.popup }, () => this.playSound())} style={{ color: '#60AA6D', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', alignSelf: 'flex-start', textDecorationLine: 'underline', marginHorizontal: 3, marginVertical: 1 }}>{this.state.word.replace("-", " ")}</Text>
+                    {this.state.type &&
+                        <Badge
+                            containerStyle={{ position: 'absolute', alignSelf: 'center' }}
+                            value={this.state.type}
+                            status="warning"
+                        />
+                    }
+                    <Text
+                        onPress={() => this.setState({ popup: !this.state.popup }, () => this.playSound())}
+                        style={this.state.dropdown != "" ? {
+                            color: '#60AA6D', fontSize: 22, fontFamily: 'BalsamiqSans-Bold',
+                            alignSelf: 'flex-start', textDecorationLine: 'underline',
+                            marginHorizontal: 3, marginVertical: 1, marginTop: 12
+                        }
+                            : {
+                                color: 'white', fontSize: 22, fontFamily: 'BalsamiqSans-Bold',
+                                alignSelf: 'flex-start',
+                                marginHorizontal: 3, marginVertical: 1, marginTop: 12
+                            }
+                        }>{this.state.word.replace("-", " ")}</Text>
                 </Tooltip>
             )
         } else {
-            return <Text style={{ color: 'white', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', marginHorizontal: 3, alignSelf: 'flex-start' }}>{this.state.word.replace("-", " ")}</Text>
+            console.log(this.state.type)
+            return (
+                <>
+                    {this.state.type &&
+                        <Badge
+                            containerStyle={{ position: 'absolute', alignSelf: 'center' }}
+                            value={this.state.type}
+                            status="warning"
+                        />
+                    }
+                    <Text
+                        style={{
+                            color: 'white', fontSize: 22,
+                            fontFamily: 'BalsamiqSans-Bold', marginHorizontal: 3, marginTop: 12,
+                            alignSelf: 'flex-start'
+                        }}>{this.state.word.replace("-", " ")}</Text>
+                </>
+            )
         }
     }
 

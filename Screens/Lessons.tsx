@@ -41,6 +41,7 @@ class Lessons extends React.Component {
     }
 
     showQuestionnaire = () => {
+        console.log('first is questionnaire')
         if (this.state.questionnaire != undefined) {
             this.setState({
                 lessonView: <Questionnaire questionnaire={this.state.questionnaire} backToLevel={this.backToLevel} />,
