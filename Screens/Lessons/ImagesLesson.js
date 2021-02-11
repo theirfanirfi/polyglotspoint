@@ -16,7 +16,9 @@ export default class ImagesLesson extends React.Component {
         correct_word: '',
         images: [],
         images_bottom_words: [],
-        lesson: []
+        lesson: [],
+        isVisibleRealMeaning: false,
+
     }
 
     static = {
@@ -59,12 +61,10 @@ export default class ImagesLesson extends React.Component {
                 let dropdownd = this.state.lesson.dropdown;
                 let type = null;
                 for (let d in dropdownd) {
-                    console.log(dropdownd[d])
                     if (dropdownd[d][element] != undefined) {
                         dropdownlist = dropdownd[d][element]
                         sound = dropdownd[d]['sound']
                         type = dropdownd[d]['type']
-                        console.log(type)
                         break;
                     }
                 }
@@ -92,13 +92,36 @@ export default class ImagesLesson extends React.Component {
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
                 <PlaySound sound={this.state.lesson.lesson.sounds} />
-                <View style={{ flex: 0.1, flexDirection: 'row', marginTop: 12 }}>
-                    {this.prepareSentence()}
-                    <Badge
-                        containerStyle={{ marginTop: 8, marginLeft: 2 }}
-                        value={this.state.lesson.lesson.masculine_feminine_neutral}
-                        status="success"
-                    />
+
+                {this.state.lesson.lesson.real_meaning && this.state.isVisibleRealMeaning &&
+                    <Text style={{ color: 'white', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', }}>
+                        {this.state.lesson.lesson.real_meaning}
+                    </Text>
+                }
+                <View style={{ flex: 0.4, }}>
+                    <View style={{ flexDirection: 'row', marginTop: 12 }}>
+                        {this.prepareSentence()}
+                        <Badge
+                            containerStyle={{ marginTop: 8, marginLeft: 2 }}
+                            value={this.state.lesson.lesson.masculine_feminine_neutral}
+                            status="success"
+                        />
+
+                        {this.state.lesson.lesson.real_meaning &&
+                            <Badge
+                                onPress={() => this.setState({ isVisibleRealMeaning: !this.state.isVisibleRealMeaning })}
+                                containerStyle={{ marginTop: 22, marginLeft: 14 }}
+                                value='R'
+                                status="info"
+                            />
+                        }
+                    </View>
+
+                    {this.state.lesson.lesson.secondary_meaning && this.state.isVisibleRealMeaning &&
+                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'BalsamiqSans-Bold', }}>
+                            {this.state.lesson.lesson.secondary_meaning}
+                        </Text>
+                    }
                 </View>
 
 
@@ -108,7 +131,7 @@ export default class ImagesLesson extends React.Component {
                     keyExtractor={(item) => { return item.id; }}
                     numColumns={2}
                     renderItem={({ item, index }) => {
-                        console.log(index);
+                        console.log(getBaseUrl() + "static/lesson/" + item.image);
                         return (
                             <TouchableOpacity key={index} onPress={() => this.checkLesson(item.word)} style={{ width: '48%', borderWidth: 1, margin: 4, borderColor: 'white', justifyContent: 'center' }}>
                                 <Image style={{ width: 180, height: 200 }} source={{ uri: getBaseUrl() + "static/lesson/" + item.image }} />

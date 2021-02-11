@@ -20,7 +20,6 @@ export default class SimpleSentenceLesson extends React.Component {
         builder: SentenceLessonBuilder,
         translation_text: '',
         isVisibleRealMeaning: false,
-        isVisibleSecondaryMeaning: false,
     }
 
     static = {
@@ -64,7 +63,6 @@ export default class SimpleSentenceLesson extends React.Component {
                         dropdownlist = dropdown[d][element];
                         sound = dropdown[d]['sound']
                         type = dropdown[d]['type'];
-                        console.log('word type ' + type)
                         break;
                     }
                 }
@@ -123,7 +121,9 @@ export default class SimpleSentenceLesson extends React.Component {
             }
 
             if (counter == tags.length) {
-                console.log('it was the right one.')
+                this.props.nextLesson(true, this.props.lessonIndex);
+            } else {
+                this.props.nextLesson(false, this.props.lessonIndex);
             }
         }
     }
@@ -164,7 +164,6 @@ export default class SimpleSentenceLesson extends React.Component {
     }
 
     render() {
-        console.log('is type answer: ' + this.state.builder.lesson.lesson.is_type_answer)
         return (
             <View style={{ flex: 1, flexDirection: 'column', paddingHorizontal: 6 }}>
                 <Text style={{ color: '#60AA6D', fontSize: 22, fontFamily: 'BalsamiqSans-Bold', }}>Translate</Text>
