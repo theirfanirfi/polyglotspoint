@@ -11,7 +11,7 @@ import PairsToMatchLesson from './Lessons/PairsToMatchLesson'
 import TapWhatYouHeardLesson from './Lessons/TapWhatYouHeardLesson'
 import Questionnaire from './Lessons/Questionnaire'
 import Ad from './Lessons/Ad'
-import FlashMessage, { showMessage } from "react-native-flash-message";
+import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 import Icon from 'react-native-vector-icons/FontAwesome'
 import BottomAd from './Ads/BottomAd';
 import { getRandomInt } from './utils'
@@ -24,6 +24,7 @@ class Lessons extends React.Component {
         this.nextLesson = this.nextLesson.bind(this);
         this.backToLevel = this.backToLevel.bind(this);
         this.showQuestionnaire = this.showQuestionnaire.bind(this);
+        this.counter = 0;
     }
 
     state = {
@@ -38,6 +39,7 @@ class Lessons extends React.Component {
         bottom_ads: 0,
         isLoading: true,
         bottom_ad_view: null,
+        ads_after_lesson: 3,
     }
 
     showQuestionnaire = () => {
@@ -85,12 +87,13 @@ class Lessons extends React.Component {
                 this.getLesson(index + 1);
             }
         } else {
-            showMessage({
-                message: "Wrong",
-                type: "danger",
-                position: 'bottom',
-                icon: 'danger'
-            });
+            // showMessage({
+            //     message: "Wrong",
+            //     type: "danger",
+            //     position: 'bottom',
+            //     icon: 'danger',
+            // });
+            hideMessage()
 
             let lessons = this.state.lessons
             let lesson = lessons[index];
@@ -121,11 +124,31 @@ class Lessons extends React.Component {
     }
 
     getLesson = (index) => {
-        console.log('current index: ' + index)
-        console.log("lessons length: " + this.state.lessons.length)
+
+        this.props.navigation.setOptions({
+            headerShown: true,
+        });
+        this.counter++;
+        console.log('counter: ' + this.counter)
+        console.log(this.state.ads_after_lesson)
+        console.log(this.counter % this.state.ads_after_lesson == 0 && index > 0)
+
         var bottom_ad_index = getRandomInt(this.state.bottom_ads_length);
-        console.log(bottom_ad_index)
-        if (index < this.state.lessons.length) {
+        if (this.counter % this.state.ads_after_lesson == 0 && index > 0) {
+            console.log('ad')
+            if (this.state.ad != null) {
+                var ad_index = getRandomInt(this.state.ad.length);
+                let ad = this.state.ad[ad_index]
+                this.setState({
+                    lessonView: <Ad ad={ad.ad} questionnaire={ad.questionnaire} navigation={this.props.navigation} lessonIndex={index} showQuestionnaire={this.showQuestionnaire} />,
+                    bottom_ad_view: null,
+                })
+            } else {
+                this.showQuestionnaire();
+            }
+        }
+        else if (index < this.state.lessons.length) {
+            console.log('lesson')
             let lesson = this.state.lessons[index];
             if (lesson.lesson.is_straight_translation == 1) {
                 let builder = this.buildeLesson(lesson);
@@ -154,27 +177,20 @@ class Lessons extends React.Component {
                     bottom_ad_view: <BottomAd ad={this.state.bottom_ads[bottom_ad_index]} />
                 })
             }
-        } else if (index == this.state.lessons.length) {
-            if (this.state.ad != null) {
-                // this.props.navigation.navigate('ads', { ad: this.state.ad });
-                this.setState({
-                    lessonView: <Ad ad={this.state.ad} lessonIndex={index} showQuestionnaire={this.showQuestionnaire} />,
-                    bottom_ad_view: null,
-                })
-            } else {
-                this.showQuestionnaire();
-            }
         }
     }
+
+
+
     async componentDidMount() {
         const { group_id } = await this.props.route.params
         let lessons = await get(`lessons/group/${group_id}`)
-        console.log(lessons.bottom_ads.length);
         this.setState({
             lessons: lessons.lessons,
             questionnaire: lessons.questionnaire != undefined ? lessons.questionnaire : null,
-            ad: lessons.ads.length > 0 ? lessons.ads[0] : null,
+            ad: lessons.ads.length > 0 ? lessons.ads : null,
             group_id: group_id,
+            ads_after_lesson: lessons.ads_setting,
             bottom_ads: lessons.bottom_ads,
             bottom_ads_length: lessons.bottom_ads.length > 0 ? lessons.bottom_ads.length : 0,
             isLoading: false,
@@ -198,7 +214,8 @@ class Lessons extends React.Component {
                 </Icon> */}
                 <>
                     {this.state.lessonView}
-                    {this.state.bottom_ad_view}
+
+                    {this.state.bottom_ads.length > 0 && this.state.bottom_ad_view}
                 </>
                 <FlashMessage position="bottom" />
 

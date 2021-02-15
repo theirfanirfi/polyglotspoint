@@ -2,9 +2,10 @@ import React from 'react'
 import { Text, View, TouchableOpacity, TextInput } from 'react-native';
 import SentenceLessonBuilder from '../../Builders/SentenceLessonBuilder';
 import WordDropDownComponent from './WordDropDownComponent'
-import { Badge } from 'react-native-elements'
+import { Badge, Button } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import PlaySound from './PlaySound'
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 export default class SimpleSentenceLesson extends React.Component {
 
@@ -87,7 +88,29 @@ export default class SimpleSentenceLesson extends React.Component {
                 // this.props.nextLesson(true, this.props.lessonIndex, this.props.context);
                 this.props.nextLesson(true, this.props.lessonIndex);
             } else {
-                this.props.nextLesson(false, this.props.lessonIndex);
+                // this.props.nextLesson(false, this.props.lessonIndex);
+                showMessage({
+                    message: "Wrong",
+                    description: "",
+                    type: "danger",
+                    icon: "danger",
+                    hideOnPress: true,
+
+                    autoHide: false,
+                    renderCustomContent: () => {
+                        return (
+                            <View>
+                                <Text style={{ color: 'white', fontSize: 20 }}>Correct: {this.state.builder.lesson.lesson.translation}</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.nextLesson(false, this.props.lessonIndex);
+
+                                }}>
+                                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Continue</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }
+                })
             }
         } else {
             // console.log("translated: " + this.state.user_tags_translation.length);
@@ -123,10 +146,32 @@ export default class SimpleSentenceLesson extends React.Component {
             if (counter == tags.length) {
                 this.props.nextLesson(true, this.props.lessonIndex);
             } else {
-                this.props.nextLesson(false, this.props.lessonIndex);
+                showMessage({
+                    message: "Wrong",
+                    description: "",
+                    type: "danger",
+                    hideOnPress: true,
+
+                    autoHide: false,
+                    renderCustomContent: () => {
+                        return (
+                            <View>
+                                <Text>Correct: {this.state.builder.lesson.lesson.translation}</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.nextLesson(false, this.props.lessonIndex);
+
+                                }}>
+                                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Continue</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }
+                })
+                // this.props.nextLesson(false, this.props.lessonIndex);
             }
         }
     }
+
 
     deTranslate(word, index) {
         let t_tags = this.state.user_tags_translation
@@ -235,6 +280,9 @@ export default class SimpleSentenceLesson extends React.Component {
                             </>
                         )}
                 </View>
+
+                <FlashMessage position="bottom" />
+
             </View>
         )
     }
