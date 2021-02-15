@@ -40,6 +40,7 @@ class Lessons extends React.Component {
         isLoading: true,
         bottom_ad_view: null,
         ads_after_lesson: 3,
+        progress: 0,
     }
 
     showQuestionnaire = () => {
@@ -87,12 +88,6 @@ class Lessons extends React.Component {
                 this.getLesson(index + 1);
             }
         } else {
-            // showMessage({
-            //     message: "Wrong",
-            //     type: "danger",
-            //     position: 'bottom',
-            //     icon: 'danger',
-            // });
             hideMessage()
 
             let lessons = this.state.lessons
@@ -129,6 +124,7 @@ class Lessons extends React.Component {
             headerShown: true,
         });
         this.counter++;
+        this.setState({ progress: (index / this.state.lessons.length) })
         console.log('counter: ' + this.counter)
         console.log(this.state.ads_after_lesson)
         console.log(this.counter % this.state.ads_after_lesson == 0 && index > 0)
@@ -209,6 +205,10 @@ class Lessons extends React.Component {
 
         return (
             <View style={MainStyle.LessonsContainer}>
+                <View style={{ padding: 12 }}>
+                    <Progress.Bar progress={this.state.progress} color="#60AA6D" width={null} />
+
+                </View>
                 {/* <Icon name='heart' size={20} style={{ color: 'red', marginRight: 12, marginTop: 12, alignSelf: 'flex-end' }} >
                     <Text style={{ color: 'white', marginLeft: 4 }}>  {this.state.score}</Text>
                 </Icon> */}
