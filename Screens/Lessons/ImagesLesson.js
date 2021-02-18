@@ -5,6 +5,8 @@ import { Badge, Icon } from 'react-native-elements'
 import PropTypes from 'prop-types';
 import { getBaseUrl } from '../../apis';
 import PlaySound from './PlaySound'
+import FlashMessage, { showMessage } from "react-native-flash-message";
+
 
 export default class ImagesLesson extends React.Component {
 
@@ -81,7 +83,29 @@ export default class ImagesLesson extends React.Component {
         if (word === this.state.correct_word) {
             this.props.nextLesson(true, this.props.lessonIndex);
         } else {
-            this.props.nextLesson(false, this.props.lessonIndex);
+            // this.props.nextLesson(false, this.props.lessonIndex);
+            showMessage({
+                message: "Wrong",
+                description: "",
+                type: "danger",
+                icon: "danger",
+                hideOnPress: true,
+
+                autoHide: false,
+                renderCustomContent: () => {
+                    return (
+                        <View>
+                            <Text style={{ color: 'white', fontSize: 20 }}>Correct: {this.state.correct_word}</Text>
+                            <TouchableOpacity onPress={() => {
+                                this.props.nextLesson(false, this.props.lessonIndex);
+
+                            }}>
+                                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Continue</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }
+            })
         }
 
     }
@@ -141,6 +165,7 @@ export default class ImagesLesson extends React.Component {
                     }}
 
                 />
+                <FlashMessage position="bottom" />
 
 
             </View>

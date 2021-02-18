@@ -24,6 +24,7 @@ class Lessons extends React.Component {
         this.nextLesson = this.nextLesson.bind(this);
         this.backToLevel = this.backToLevel.bind(this);
         this.showQuestionnaire = this.showQuestionnaire.bind(this);
+        this.lessonAfterAd = this.lessonAfterAd.bind(this);
         this.counter = 0;
     }
 
@@ -74,6 +75,11 @@ class Lessons extends React.Component {
             });
         }
     }
+    lessonAfterAd = (index) => {
+        if (index <= this.state.lessons.length) {
+            this.getLesson(index);
+        }
+    }
 
     nextLesson = (isLessonPassed, index) => {
         if (isLessonPassed) {
@@ -83,7 +89,6 @@ class Lessons extends React.Component {
                 position: 'bottom',
                 icon: 'success'
             });
-            this.setState({ score: this.state.score + 1 });
             if (index + 1 <= this.state.lessons.length) {
                 this.getLesson(index + 1);
             }
@@ -136,7 +141,10 @@ class Lessons extends React.Component {
                 var ad_index = getRandomInt(this.state.ad.length);
                 let ad = this.state.ad[ad_index]
                 this.setState({
-                    lessonView: <Ad ad={ad.ad} questionnaire={ad.questionnaire} navigation={this.props.navigation} lessonIndex={index} showQuestionnaire={this.showQuestionnaire} />,
+                    lessonView: <Ad ad={ad.ad} questionnaire={ad.questionnaire}
+                        lessonAfterAd={this.lessonAfterAd}
+                        navigation={this.props.navigation} lessonIndex={index}
+                        showQuestionnaire={this.showQuestionnaire} />,
                     bottom_ad_view: null,
                 })
             } else {

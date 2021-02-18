@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { shuffleArray } from '../utils'
 import TrackPlayer from 'react-native-track-player';
 import { getBaseUrl } from '../../apis/';
+import FlashMessage, { showMessage } from "react-native-flash-message";
+
 
 export default class PairsToMatchLesson extends React.Component {
 
@@ -123,7 +125,29 @@ export default class PairsToMatchLesson extends React.Component {
             if (count === this.state.correct_sentence_tags.length) {
                 this.props.nextLesson(true, this.props.lessonIndex);
             } else {
-                this.props.nextLesson(false, this.props.lessonIndex);
+                // this.props.nextLesson(false, this.props.lessonIndex);
+                showMessage({
+                    message: "Wrong",
+                    description: "",
+                    type: "danger",
+                    icon: "danger",
+                    hideOnPress: true,
+
+                    autoHide: false,
+                    renderCustomContent: () => {
+                        return (
+                            <View>
+                                <Text style={{ color: 'white', fontSize: 20 }}>Correct: {this.state.lesson.lesson.translation.replace("-", " ")}</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.nextLesson(false, this.props.lessonIndex);
+
+                                }}>
+                                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Continue</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }
+                })
             }
         } else {
             // console.log("translated: " + this.state.user_tags_translation.length);
@@ -200,6 +224,7 @@ export default class PairsToMatchLesson extends React.Component {
                 <View style={{ marginTop: 40, flex: 0.2, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start' }}>
                     {this.translationTags()}
                 </View>
+                <FlashMessage position="bottom" />
 
             </View>
         )

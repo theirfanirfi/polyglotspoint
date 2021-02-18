@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { shuffleArray } from '../utils'
 import PlaySound from './PlaySound'
 import WordDropDownComponent from './WordDropDownComponent'
+import FlashMessage, { showMessage } from "react-native-flash-message";
+
 
 export default class WriteThisLesson extends React.Component {
 
@@ -66,7 +68,29 @@ export default class WriteThisLesson extends React.Component {
             if (count === correct_tags.length) {
                 this.props.nextLesson(true, this.props.lessonIndex);
             } else {
-                this.props.nextLesson(false, this.props.lessonIndex);
+                // this.props.nextLesson(false, this.props.lessonIndex);
+                showMessage({
+                    message: "Wrong",
+                    description: "",
+                    type: "danger",
+                    icon: "danger",
+                    hideOnPress: true,
+
+                    autoHide: false,
+                    renderCustomContent: () => {
+                        return (
+                            <View>
+                                <Text style={{ color: 'white', fontSize: 20 }}>Correct: {this.state.lesson.lesson.translation}</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.nextLesson(false, this.props.lessonIndex);
+
+                                }}>
+                                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Continue</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }
+                })
             }
         } else {
             // console.log("translated: " + this.state.user_tags_translation.length);
@@ -173,8 +197,28 @@ export default class WriteThisLesson extends React.Component {
             if (this.state.lesson.lesson.translation === this.state.translation_text) {
                 this.props.nextLesson(true, this.props.lessonIndex);
             } else {
-                this.props.nextLesson(false, this.props.lessonIndex);
+                showMessage({
+                    message: "Wrong",
+                    description: "",
+                    type: "danger",
+                    icon: "danger",
+                    hideOnPress: true,
 
+                    autoHide: false,
+                    renderCustomContent: () => {
+                        return (
+                            <View>
+                                <Text style={{ color: 'white', fontSize: 20 }}>Correct: {this.state.lesson.lesson.translation}</Text>
+                                <TouchableOpacity onPress={() => {
+                                    this.props.nextLesson(false, this.props.lessonIndex);
+
+                                }}>
+                                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Continue</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }
+                })
             }
         }
     }
@@ -252,6 +296,7 @@ export default class WriteThisLesson extends React.Component {
                             </>
                         )}
                 </View>
+                <FlashMessage position="bottom" />
 
             </View>
         )
